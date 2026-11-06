@@ -10,7 +10,7 @@ OXROK ?= $(HOME)/oxrok
 HUGO ?= hugo
 PAGEFIND ?= pagefind
 
-.PHONY: all data pages docs hugo pagefind check clean
+.PHONY: all data pages docs hugo pagefind check serve clean
 
 all: data pages docs hugo pagefind check
 
@@ -33,6 +33,12 @@ pagefind:
 # no broken links, no page over budget, no libsigrok-bug mentions.
 check:
 	python3 tools/check.py
+
+# Build everything (including the checks), then serve public/ at
+# http://localhost:8080 — the exact tree that gets deployed, Pagefind
+# included. Ctrl-C to stop.
+serve: all
+	python3 -m http.server -d public 8080
 
 clean:
 	rm -rf public pagefind
