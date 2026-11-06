@@ -1,12 +1,12 @@
 # oxrok.dev build
 #
-# The site describes a checkout of oxrok. OXROK is that checkout; it defaults
-# to ~/oxrok. The build generates data/drivers.json from it (via the oxrok
-# repo's tools/site-data, so the generator changes with what it reads),
-# generates the per-driver page stubs, builds with Hugo, and indexes with
-# Pagefind.
+# The site describes a checkout of oxrok. OXROK is that checkout, always
+# the sibling directory ../oxrok. The build generates data/drivers.json
+# from it (via the oxrok repo's tools/site-data, so the generator changes
+# with what it reads), generates the per-driver page stubs, builds with
+# Hugo, and indexes with Pagefind.
 
-OXROK ?= $(HOME)/oxrok
+OXROK := ../oxrok
 HUGO ?= hugo
 PAGEFIND ?= pagefind
 
@@ -15,6 +15,7 @@ PAGEFIND ?= pagefind
 all: data pages docs hugo pagefind check
 
 data:
+	mkdir -p data
 	python3 $(OXROK)/tools/site-data $(OXROK) > data/drivers.json
 
 pages: data
