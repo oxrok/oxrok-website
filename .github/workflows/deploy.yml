@@ -68,7 +68,8 @@ jobs:
       # Pinned to the version the site was built and checked with.
       - uses: peaceiris/actions-hugo@v2
         with:
-          hugo: "0.162.1"
+          hugo-version: "0.162.1"
+          extended: true
 
       - name: Pagefind
         run: |
