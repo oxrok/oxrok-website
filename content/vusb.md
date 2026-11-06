@@ -2,7 +2,7 @@
 title: vusb
 ---
 
-<img src="{{ "vusb/lockup.svg" | relURL }}" alt="vusb" width="220" style="height:auto">
+<img src="/vusb/lockup.svg" alt="vusb" width="220" style="height:auto">
 
 **vusb puts a USB device on the bus that is only Rust code.** Test your driver
 without the hardware, in CI, and with fault injection.
@@ -50,6 +50,6 @@ oxrok's whole test approach rests on it: the device models in
 [Testing](/testing/) are vusb models, attached through `vhci-hcd` so the kernel
 sees a real USB device.
 
-[The vusb repository]({{ .Site.Params.vusb_repo }}) ·
+[The vusb repository](https://github.com/oxrok/vusb) ·
 [crates.io](https://crates.io/crates/vusb) ·
 [docs.rs](https://docs.rs/vusb)

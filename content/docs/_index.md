@@ -12,4 +12,4 @@ Reference for the command line and the transports.
   USB/IP device model.
 
 The deeper per-device and porting docs stay in the
-[repository]({{ .Site.Params.repo }}/tree/main/docs), for developers.
+[repository](https://github.com/oxrok/oxrok/tree/main/docs), for developers.

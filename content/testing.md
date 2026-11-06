@@ -93,5 +93,5 @@ model whose checks never fired in any test.
 
 Numbers: **{{% numbers %}}**
 
-[How drivers are tested in the README]({{ .Site.Params.repo }}/blob/main/README.md#how-drivers-are-tested)
-and [the USB emulation notes]({{ .Site.Params.repo }}/blob/main/docs/USB.md).
+[How drivers are tested in the README](https://github.com/oxrok/oxrok/blob/main/README.md#how-drivers-are-tested)
+and [the USB emulation notes](https://github.com/oxrok/oxrok/blob/main/docs/USB.md).
