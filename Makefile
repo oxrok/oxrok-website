@@ -15,6 +15,7 @@ PAGEFIND ?= pagefind
 all: data pages docs hugo pagefind check
 
 data:
+	mkdir -p data
 	python3 $(OXROK)/tools/site-data $(OXROK) > data/drivers.json
 
 pages: data
