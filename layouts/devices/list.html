@@ -1,0 +1,118 @@
+{{ define "main" }}
+{{ $data := .Site.Data }}
+{{ $drivers := $data.drivers.drivers }}
+  <h1>Devices</h1>
+  <p>How far can I trust this? A driver's <strong>status</strong> says how it was
+  checked, from strongest to weakest. Most have never met their device; the
+  <a href="{{ "testing/" | relURL }}">testing page</a> says what each status
+  does and does not prove.</p>
+
+  <table>
+    <tr>
+      <th>Status</th>
+      <th>Meaning</th>
+    </tr>
+    <tr><td><span class="badge hw">Hardware</span></td><td>Run on the real device, by us</td></tr>
+    <tr><td><span class="badge standin">Stand-in</span></td><td>Run over a real bus on a microcontroller acting as the device</td></tr>
+    <tr><td><span class="badge emu">Emulated</span></td><td>Compared with libsigrok on an emulated device; never on hardware</td></tr>
+    <tr><td><span class="badge software">Software</span></td><td>A software driver, checked by the software cases of the differential script</td></tr>
+    <tr><td><span class="badge replay">Replay</span></td><td>Checked only against recordings</td></tr>
+    <tr><td><span class="badge none">Not ported</span></td><td>In libsigrok, not here yet</td></tr>
+  </table>
+
+  <form class="filters">
+    <input type="search" id="q" placeholder="Search names and models" aria-label="Search devices">
+    <select id="kind" aria-label="Filter by kind">
+      <option value="">All kinds</option>
+      <option value="logic-analyzer">Logic analyzer</option>
+      <option value="scope">Scope</option>
+      <option value="meter">Meter</option>
+      <option value="supply">Supply</option>
+      <option value="load">Load</option>
+      <option value="generator">Generator</option>
+      <option value="other">Other</option>
+    </select>
+    <select id="status" aria-label="Filter by status">
+      <option value="">All statuses</option>
+      <option value="hardware">Hardware</option>
+      <option value="stand-in">Stand-in</option>
+      <option value="emulated">Emulated</option>
+      <option value="software">Software</option>
+      <option value="replay">Replay</option>
+      <option value="not-ported">Not ported</option>
+    </select>
+    <select id="conn" aria-label="Filter by connection">
+      <option value="">All connections</option>
+      <option value="usb">USB</option>
+      <option value="serial">Serial</option>
+      <option value="tcp">TCP</option>
+      <option value="hid">HID</option>
+    </select>
+  </form>
+
+  <table class="devtable">
+    <thead>
+      <tr>
+        <th>Device</th>
+        <th>Kind</th>
+        <th>Connection</th>
+        <th>Status</th>
+        <th class="num">Cases</th>
+        <th class="num">Coverage</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $drivers }}
+      {{ $best := "not-ported" }}
+      {{ $bestp := 0 }}
+      {{ range $s := .status }}
+        {{ $p := 0 }}
+        {{ if eq $s "hardware" }}{{ $p = 5 }}{{ end }}
+        {{ if eq $s "stand-in" }}{{ $p = 4 }}{{ end }}
+        {{ if eq $s "emulated" }}{{ $p = 3 }}{{ end }}
+        {{ if eq $s "software" }}{{ $p = 2 }}{{ end }}
+        {{ if eq $s "replay" }}{{ $p = 1 }}{{ end }}
+        {{ if gt $p $bestp }}{{ $bestp = $p }}{{ $best = $s }}{{ end }}
+      {{ end }}
+      {{ $class := index (dict "hardware" "hw" "stand-in" "standin" "emulated" "emu" "software" "software" "replay" "replay" "not-ported" "none") $best }}
+      {{ $label := index (dict "hardware" "Hardware" "stand-in" "Stand-in" "emulated" "Emulated" "software" "Software" "replay" "Replay" "not-ported" "Not ported") $best }}
+      <tr data-kind="{{ .kind }}" data-status="{{ $best }}" data-conn="{{ .connection }}"
+          data-search="{{ .name }} {{ range .models }}{{ . }} {{ end }}{{ range .ids }}{{ . }} {{ end }}">
+        <td data-label="Device"><a href="{{ printf "devices/%s/" .key | relURL }}">{{ .name }}</a><br>
+          <span class="id">{{ index .ids 0 }}</span></td>
+        <td data-label="Kind">{{ .kind }}</td>
+        <td data-label="Connection">{{ .connection }}</td>
+        <td data-label="Status"><span class="badge {{ $class }}">{{ $label }}</span></td>
+        <td data-label="Cases" class="num">{{ .cases }}</td>
+        <td data-label="Coverage" class="num">{{ if .coverage }}{{ (index .coverage 0).pct }}%{{ else }}&ndash;{{ end }}</td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+
+  <p><a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">Have one? Tell us</a> —
+  a report from a real unit is worth more than another emulator case.</p>
+
+  <script>
+    (function () {
+      var q = document.getElementById("q");
+      var kind = document.getElementById("kind");
+      var status = document.getElementById("status");
+      var conn = document.getElementById("conn");
+      var rows = Array.from(document.querySelectorAll(".devtable tbody tr"));
+      function apply() {
+        var needle = q.value.trim().toLowerCase();
+        rows.forEach(function (r) {
+          var ok = true;
+          if (needle && r.dataset.search.toLowerCase().indexOf(needle) === -1) ok = false;
+          if (kind.value && r.dataset.kind !== kind.value) ok = false;
+          if (status.value && r.dataset.status !== status.value) ok = false;
+          if (conn.value && r.dataset.conn !== conn.value) ok = false;
+          r.style.display = ok ? "" : "none";
+        });
+      }
+      [q, kind, status, conn].forEach(function (el) { el.addEventListener("input", apply); });
+      apply();
+    })();
+  </script>
+{{ end }}

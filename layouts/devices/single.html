@@ -1,0 +1,77 @@
+{{ define "main" }}
+{{ $data := .Site.Data }}
+{{ $drivers := $data.drivers.drivers }}
+{{ $d := slice }}
+{{ range $drivers }}
+  {{ if eq .key $.Params.key }}{{ $d = . }}{{ end }}
+{{ end }}
+  {{ if $d }}
+  <div class="dhead">
+    <h1>{{ $d.name }}</h1>
+    {{ range $s := $d.status }}
+    <span class="badge {{ index (dict "hardware" "hw" "stand-in" "standin" "emulated" "emu" "software" "software" "replay" "replay" "not-ported" "none") $s }}">{{ index (dict "hardware" "Hardware" "stand-in" "Stand-in" "emulated" "Emulated" "software" "Software" "replay" "Replay" "not-ported" "Not ported") $s }}</span>
+    {{ end }}
+  </div>
+  <p class="dmeta">{{ if $d.vendor }}{{ $d.vendor }} · {{ end }}{{ $d.kind }} · {{ $d.connection }}</p>
+
+  {{ if $d.models }}
+  <p>Covers: {{ range $i, $m := $d.models }}{{ if $i }}, {{ end }}{{ $m }}{{ end }}</p>
+  {{ end }}
+
+  {{ if eq (index $d.status 0) "not-ported" }}
+  <p><strong>Not ported yet.</strong> {{ $d.reason }}</p>
+  {{ else }}
+
+  <h2>Connect</h2>
+  {{ if $d.ids }}
+  <p class="conn">oxrok -d {{ index $d.ids 0 }}</p>
+  {{ else }}
+  <p>No driver id yet.</p>
+  {{ end }}
+
+  {{ if $d.show }}
+  <h2>Capabilities</h2>
+  <div class="term"><pre>{{ $d.show }}</pre></div>
+  {{ end }}
+
+  {{ if $d.evidence }}
+  <h2>How it was checked</h2>
+  <ul>
+    {{ range $d.evidence }}<li>{{ . }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ if $d.cases }}
+  <p>{{ $d.cases }} emulator cases{{ if $d.coverage }}, covering {{ (index $d.coverage 0).pct }}% of the C driver's lines{{ end }}. The
+  <a href="{{ "testing/" | relURL }}">testing page</a> says what that figure does and
+  does not prove.</p>
+  {{ end }}
+
+  {{ if $d.behaviour }}
+  <h2>Behaviour to know</h2>
+  <ul>
+    {{ range $d.behaviour }}<li>{{ . }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ if $d.limits }}
+  <h2>Known limits</h2>
+  <ul>
+    {{ range $d.limits }}<li>{{ . }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  {{ end }}
+
+  <p class="dmeta">
+    <a href="{{ printf "%s/tree/main/src/drivers/%s" .Site.Params.repo (replace .Params.key "-" "_") }}">source</a>
+    · <a href="{{ .Site.Params.repo }}/blob/main/docs/DEVICES.md">device docs</a>
+    · <a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">report a result</a>
+  </p>
+  {{ else }}
+  <h1>Driver not found</h1>
+  {{ end }}
+{{ end }}

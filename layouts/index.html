@@ -1,0 +1,69 @@
+{{ define "main" }}
+{{ $data := .Site.Data }}
+{{ $m := $data.drivers.meta }}
+  <div class="hero">
+    <h1>oxrok</h1>
+    <p class="lede">A sigrok-compatible stack in Rust for logic analyzers, scopes and
+    meters: a library, drivers and a command line tool. It builds with
+    <code>cargo</code> alone, links no C sigrok library, and takes sigrok-cli's
+    flags, file formats, driver ids and decoder ids.</p>
+    <span class="tag">Experimental. Most drivers have never run on real hardware.</span>
+  </div>
+
+  <div class="term">
+    <button class="copy" type="button">copy</button>
+    <pre><span class="prompt">$</span> {{ $m.demo.install }}
+<span class="prompt">$</span> {{ $m.demo.cmd }}
+{{ $m.demo.out }}</pre>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h3>Same interface as sigrok</h3>
+      <p>sigrok-cli's flags, file formats, driver and decoder ids. libsigrokdecode's
+      Python decoders run unchanged, on a built-in RustPython interpreter or the
+      system's CPython.</p>
+    </div>
+    <div>
+      <h3>One binary</h3>
+      <p>No C libraries. Static builds for Linux, macOS and Windows, with the
+      decoders next to it.</p>
+    </div>
+    <div>
+      <h3>Tested against the C</h3>
+      <p>Every driver is compared with libsigrok on a device model the kernel
+      cannot tell apart from hardware. <a href="{{ "testing/" | relURL }}">How</a>.</p>
+    </div>
+  </div>
+
+  <div class="strip">
+    <span><b>{{ $m.ported }}</b> of libsigrok's <b>{{ $m.libsigrok_total }}</b> drivers</span>
+    <span><b>{{ $m.cases_total | int }}</b> emulator cases</span>
+    <span><b>{{ $m.hardware }}</b> on real hardware</span>
+    <a href="{{ "devices/" | relURL }}">all drivers →</a>
+  </div>
+
+  <h2>Find your device</h2>
+  <form class="filters" action="{{ "devices/" | relURL }}" method="get">
+    <input type="search" name="q" placeholder="Search devices and models, e.g. UT61E" aria-label="Search devices">
+  </form>
+
+  <h2>How it was written</h2>
+  <p>oxrok is a translation of the sigrok C and Python code into Rust, done by a
+  large language model, with a human directing the work: choosing what to port,
+  reviewing the structure and the protocol handling, wiring up the bench hardware
+  and running the comparisons. Read the code with that in mind, and read the
+  <a href="{{ "devices/" | relURL }}">driver table</a> for what has met which
+  kind of evidence.</p>
+
+  <h2>How it is tested</h2>
+  <p>Most of these drivers have never met their device, so the project's answer is
+  a device model in Rust, attached through Linux's <code>vhci-hcd</code> over
+  USB/IP: the kernel sees a real USB device, and the real sigrok-cli and oxrok
+  run unmodified against it. Every transaction is logged and compared. The models
+  are built to misbehave — stalls, unplugs, late replies, bad frames.
+  <a href="{{ "testing/" | relURL }}">The whole method, and what it cannot tell you</a>.</p>
+  <p><img src="{{ "vusb/lockup.svg" | relURL }}" alt="vusb" width="180" style="height:auto">
+  The models run on <a href="{{ "vusb/" | relURL }}">vusb</a>, a virtual USB
+  library that puts a device on the bus that is only Rust code.</p>
+{{ end }}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}oxrok</title>
+  <meta name="description" content="{{ .Description | default .Site.Params.description }}">
+  <link rel="icon" href="{{ "logo/mark.svg" | relURL }}">
+  <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
+  <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
+  <link rel="alternate" type="application/rss+xml" title="oxrok" href="{{ "index.xml" | relURL }}">
+  <meta name="color-scheme" content="light dark">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="{{ "/" | relURL }}">
+      <img src="{{ "logo/lockup.svg" | relURL }}" alt="oxrok" width="132" height="47">
+    </a>
+    <nav>
+      <a href="{{ "devices/" | relURL }}">Devices</a>
+      <a href="{{ "start/" | relURL }}">Get started</a>
+      <a href="{{ "testing/" | relURL }}">Testing</a>
+      <a href="{{ "docs/" | relURL }}">Docs</a>
+      <a href="{{ "blog/" | relURL }}">Blog</a>
+      <a class="gh" href="{{ .Site.Params.repo }}" rel="noopener">GitHub</a>
+      <span id="pagefind"></span>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+  {{ block "main" . }}{{ end }}
+</main>
+<footer class="site">
+  <div class="wrap">
+    <p>
+      <a href="{{ .Site.Params.repo }}">GitHub</a>
+      · <a href="{{ .Site.Params.website_repo }}">this site</a>
+      · <a href="{{ .Site.Params.repo }}/blob/main/docs/DEVICES.md">device docs</a>
+      · <a href="{{ .Site.Params.repo }}/blob/main/docs/ROADMAP.md">roadmap</a>
+      · <a href="{{ "index.xml" | relURL }}">RSS</a>
+    </p>
+    <p class="fine">GPL-3.0-or-later · written by an LLM, directed by a person</p>
+  </div>
+</footer>
+<script src="/pagefind/pagefind-component-ui.js" charset="utf-8" defer></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    new PagefindUI({ element: "#pagefind", showSubFields: true });
+  });
+</script>
+</body>
+</html>

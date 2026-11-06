@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ $docs := .Parent.RegularPages }}
+  <div class="docgrid">
+    <nav class="side">
+      {{ range $docs }}
+      <a href="{{ .RelPermalink }}" class="{{ if eq .RelPermalink $.RelPermalink }}here{{ end }}">{{ .Title }}</a>
+      {{ end }}
+    </nav>
+    <div>
+      {{ .Content }}
+    </div>
+  </div>
+{{ end }}

@@ -1,0 +1,20 @@
+baseURL = "https://oxrok.dev/"
+languageCode = "en"
+title = "oxrok"
+copyright = "GPL-3.0-or-later"
+
+enableRobotsTXT = true
+
+[params]
+description = "A sigrok-compatible stack in Rust for logic analyzers, scopes and meters"
+repo = "https://github.com/oxrok/oxrok"
+website_repo = "https://github.com/oxrok/website"
+vusb_repo = "https://github.com/oxrok/vusb"
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+unsafe = true
+
+[outputs]
+home = ["HTML", "RSS"]

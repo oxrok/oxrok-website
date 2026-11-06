@@ -1,0 +1,97 @@
+name: Build and deploy
+
+# The site describes the latest oxrok release, not main: the driver table
+# should say what is installable. A new release is picked up by the daily
+# schedule; a push to main rebuilds the site with the same release.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # git ls-remote, not the releases API: the releases are pre-releases,
+      # which releases/latest skips.
+      #
+      # The site build needs the site machinery (tools/site-data,
+      # docs/drivers.toml, tools/libsigrok-drivers.txt) in the checkout.
+      # A release that predates it can't build the site, and overlaying
+      # the machinery from main would break: drivers.toml on main names
+      # ports the release binary doesn't have. So use the release when it
+      # has the machinery, else main, until the next release does.
+      - name: Choose the oxrok checkout
+        id: tag
+        run: |
+          tag=$(git ls-remote --tags https://github.com/oxrok/oxrok 'v*' \
+            | awk '{print $2}' | sed 's|^refs/tags/||' | grep -v '\^{}' \
+            | sort -V | tail -n1)
+          test -n "$tag"
+          ok=1
+          for f in tools/site-data docs/drivers.toml tools/libsigrok-drivers.txt; do
+            curl -fsS "https://raw.githubusercontent.com/oxrok/oxrok/$tag/$f" -o /dev/null || ok=0
+          done
+          if [ "$ok" = 1 ]; then
+            echo "tag=$tag" >>"$GITHUB_OUTPUT"
+            echo "Building the site against oxrok $tag"
+          else
+            echo "tag=main" >>"$GITHUB_OUTPUT"
+            echo "oxrok $tag predates the site machinery; building against main"
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          repository: oxrok/oxrok
+          ref: ${{ steps.tag.outputs.tag }}
+          path: oxrok
+
+      # tools/site-data builds oxrok if the binary is missing.
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: oxrok
+
+      # Pinned to the version the site was built and checked with.
+      - uses: peaceiris/actions-hugo@v2
+        with:
+          hugo: "0.162.1"
+
+      - name: Pagefind
+        run: |
+          curl -fsSL https://github.com/milesj/pagefind/releases/download/pagefind-v1.6.0/pagefind-v1.6.0-x86_64-unknown-linux-musl.tar.gz | tar -xz
+          chmod +x pagefind
+          ./pagefind --version
+
+      # make runs data, pages, docs, hugo, pagefind, and the checks
+      # (tools/check.py): generated data valid, every driver has a status,
+      # no broken links, no page over budget, no libsigrok-bug mentions.
+      - run: make OXROK="$GITHUB_WORKSPACE/oxrok" PAGEFIND=./pagefind
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
