@@ -7,6 +7,8 @@ title: vusb
 **vusb puts a USB device on the bus that is only Rust code.** Test your driver
 without the hardware, in CI, and with fault injection.
 
+<img src="/vusb/hero.svg" alt="Your software talks over USB to a device that is only Rust code, with no hardware." width="100%" style="height:auto">
+
 On Linux the device is real to the whole machine: `lsusb` lists it, and libusb,
 hidraw, `/dev/ttyACM0` and `/dev/ttyUSB0` all work. In a unit test it needs no
 kernel and no root. Either way it is the same code, and it reports every time
@@ -35,6 +37,20 @@ fn main() -> vusb::Result<()> {
     Ok(())
 }
 ```
+
+## The layers
+
+A program, a host on a cable, or a test all reach your device model through the
+same bus and device layers; `vusb-ctl` controls it while it runs.
+
+<img src="/vusb/overview.svg" alt="A program, a host on a cable or a test reaches your device model through the same bus and device layers. vusb-ctl controls it while it runs." width="100%" style="height:auto">
+
+## How a transfer works
+
+A transfer the model answers with NAK is held by the bus and offered again until
+the model has data. Only then does the host see a completion.
+
+<img src="/vusb/transfer.svg" alt="A transfer the model answers with NAK is held by the bus and offered again until the model has data. Only then does the host see a completion." width="100%" style="height:auto">
 
 ## What it offers
 
