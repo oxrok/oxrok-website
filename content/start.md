@@ -7,21 +7,23 @@ haven't installed oxrok yet, do [that](/install/) first.
 
 ## 1. List the drivers
 
-```
-$ oxrok -L
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -L
 Supported hardware drivers:
   agilent-dmm          Agilent U12xx series DMMs
   appa-55ii            APPA 55II
   arachnid-labs-re-load-pro Arachnid Labs Re:load Pro
-  ...
-```
+  ...</pre>
+</div>
 
 164 driver ids, most of them multimeters.
 
 ## 2. Scan and show
 
-```
-$ oxrok -d demo --show
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -d demo --show
 Driver functions:
     Demo device
     Logic analyzer
@@ -33,22 +35,23 @@ Scan options:
 demo - Demo device with 13 channels: D0 D1 D2 D3 D4 D5 D6 D7 A0 A1 A2 A3 A4
 Channel groups:
     Logic: channels D0 D1 D2 D3 D4 D5 D6 D7
-    Analog: channels A0 A1 A2 A3 A4
-```
+    Analog: channels A0 A1 A2 A3 A4</pre>
+</div>
 
 ## 3. Capture
 
 `--samples`, `--time`, `--frames` limit the run; `-C` selects channels; `-O`
 picks the output format.
 
-```
-$ oxrok -d demo --samples 4 -O bits
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -d demo --samples 4 -O bits
 oxrok 0.1.0-alpha.2
 Acquisition with 8/13 channels at 200 kHz
 A0: -10.0000 V DC
 A0: -10.0000 V DC
-...
-```
+...</pre>
+</div>
 
 The demo's random analog channel differs from run to run in both tools.
 
@@ -57,9 +60,10 @@ The demo's random analog channel differs from run to run in both tools.
 `-t` arms a trigger, `-w` waits for it before saving data. The match is
 written `channel=value`, so `D0=r` fires on a rising edge of D0:
 
-```
-$ oxrok -d demo -t 'D0=r' -w --samples 4 -O bits
-```
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -d demo -t 'D0=r' -w --samples 4 -O bits</pre>
+</div>
 
 Two forms that bite: `D0:r` is a scan option, not a trigger match, and a
 capture with no limit only prints the usage.
@@ -68,15 +72,16 @@ capture with no limit only prints the usage.
 
 `-P` runs a protocol decoder, `-A` selects the annotation classes to show.
 
-```
-$ oxrok -i tests/fixtures/uart-hi.vcd -P uart:baudrate=115200:rx=top.D0 -A uart=rx-data
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -i tests/fixtures/uart-hi.vcd -P uart:baudrate=115200:rx=top.D0 -A uart=rx-data
 uart-1: 48
 uart-1: 69
 uart-1: 21
 uart-1: 0A
 uart-1: 00
-uart-1: FF
-```
+uart-1: FF</pre>
+</div>
 
 That is `Hi!` in hex.
 
@@ -85,15 +90,17 @@ That is `Hi!` in hex.
 `conn=` names the port or device; on Linux a USB device is root only without a
 udev rule. A serial meter:
 
-```
-oxrok -d uni-t-ut61e-ser:conn=/dev/ttyUSB0 --samples 10
-```
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -d uni-t-ut61e-ser:conn=/dev/ttyUSB0 --samples 10</pre>
+</div>
 
 A SCPI scope:
 
-```
-oxrok -d rigol-ds:conn=tcp://192.168.1.50 --samples 1000 -O csv
-```
+<div class="term">
+  <button class="copy" type="button">copy</button>
+  <pre><span class="prompt">$</span> oxrok -d rigol-ds:conn=tcp://192.168.1.50 --samples 1000 -O csv</pre>
+</div>
 
 ## Coming from sigrok-cli
 
