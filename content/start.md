@@ -2,8 +2,10 @@
 title: Getting started
 ---
 
-Five steps, all with the built-in `demo` driver — no hardware needed. If you
-haven't installed oxrok yet, do [that](/install/) first.
+Five steps, all with the built-in `demo` driver — no hardware needed. Install
+oxrok first, or see the full [install](/install/) page:
+
+{{< install >}}
 
 ## 1. List the drivers
 
