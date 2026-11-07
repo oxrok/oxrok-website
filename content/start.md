@@ -9,7 +9,7 @@ haven't installed oxrok yet, do [that](/install/) first.
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -L
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -L</span>
 Supported hardware drivers:
   agilent-dmm          Agilent U12xx series DMMs
   appa-55ii            APPA 55II
@@ -23,7 +23,7 @@ Supported hardware drivers:
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -d demo --show
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -d demo --show</span>
 Driver functions:
     Demo device
     Logic analyzer
@@ -45,7 +45,7 @@ picks the output format.
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -d demo --samples 4 -O bits
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -d demo --samples 4 -O bits</span>
 oxrok 0.1.0-alpha.2
 Acquisition with 8/13 channels at 200 kHz
 A0: -10.0000 V DC
@@ -62,7 +62,7 @@ written `channel=value`, so `D0=r` fires on a rising edge of D0:
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -d demo -t 'D0=r' -w --samples 4 -O bits</pre>
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -d demo -t 'D0=r' -w --samples 4 -O bits</span></pre>
 </div>
 
 Two forms that bite: `D0:r` is a scan option, not a trigger match, and a
@@ -74,7 +74,7 @@ capture with no limit only prints the usage.
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -i tests/fixtures/uart-hi.vcd -P uart:baudrate=115200:rx=top.D0 -A uart=rx-data
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -i tests/fixtures/uart-hi.vcd -P uart:baudrate=115200:rx=top.D0 -A uart=rx-data</span>
 uart-1: 48
 uart-1: 69
 uart-1: 21
@@ -92,14 +92,14 @@ udev rule. A serial meter:
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -d uni-t-ut61e-ser:conn=/dev/ttyUSB0 --samples 10</pre>
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -d uni-t-ut61e-ser:conn=/dev/ttyUSB0 --samples 10</span></pre>
 </div>
 
 A SCPI scope:
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> oxrok -d rigol-ds:conn=tcp://192.168.1.50 --samples 1000 -O csv</pre>
+  <pre><span class="prompt">$</span> <span class="cmd">oxrok -d rigol-ds:conn=tcp://192.168.1.50 --samples 1000 -O csv</span></pre>
 </div>
 
 ## Coming from sigrok-cli

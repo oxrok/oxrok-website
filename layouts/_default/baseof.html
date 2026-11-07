@@ -68,7 +68,10 @@
     if (!src) return;
     var copy = src.cloneNode(true);
     copy.querySelectorAll(".prompt").forEach(function (el) { el.remove(); });
-    var text = copy.innerText.trim();
+    var cmds = copy.querySelectorAll(".cmd");
+    var text = cmds.length
+      ? Array.prototype.map.call(cmds, function (el) { return el.textContent.trim(); }).join("\n")
+      : copy.innerText.trim();
     var done = function () {
       b.textContent = "copied";
       b.classList.add("done");
