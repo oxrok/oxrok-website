@@ -12,6 +12,7 @@ import os
 import re
 import sys
 import glob
+import hashlib
 
 failures = []
 
@@ -70,6 +71,28 @@ for f in glob.glob("public/**/*.html", recursive=True):
         if "bug" in window:
             failures.append(f"libsigrok near 'bug' in {f}")
             break
+
+# 5. the UI screenshots match the manifest (present, unbroken, no strays)
+ui_path = "data/ui.json"
+if os.path.isfile(ui_path):
+    ui = json.loads(open(ui_path).read())["ui"]
+    for name, meta in ui["files"].items():
+        p = os.path.join("public", "ui", name)
+        if not os.path.isfile(p):
+            failures.append(f"missing UI screenshot in public/ui: {name}")
+            continue
+        digest = hashlib.sha256(open(p, "rb").read()).hexdigest()
+        if digest != meta["sha256"] or os.path.getsize(p) != meta["size"]:
+            failures.append(f"UI screenshot differs from manifest: {name}")
+    # Only screenshots are tracked; public/ui/ also holds the page's own
+    # index.html, which is not a stray.
+    if os.path.isdir(os.path.join("public", "ui")):
+        for name in os.listdir(os.path.join("public", "ui")):
+            if name.endswith(".png") and name not in ui["files"]:
+                failures.append(f"stray screenshot in public/ui: {name}")
+    print(f"ui: {len(ui['files'])} screenshots (oxrok-ui {ui.get('version')})")
+else:
+    print("ui: manifest missing, skipped (run make ui)")
 
 if failures:
     print("\nFAILURES:", file=sys.stderr)

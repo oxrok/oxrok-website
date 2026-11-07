@@ -5,17 +5,29 @@
 # from it (via the oxrok repo's tools/site-data, so the generator changes
 # with what it reads), generates the per-driver page stubs, builds with
 # Hugo, and indexes with Pagefind.
+#
+# The UI screenshots come from the oxrok-ui checkout, UI (the sibling
+# ../ui). They are regenerated on every UI release; `make ui` copies them
+# into static/ui/ and records which release they came from in data/ui.json.
+# To keep them in sync after a UI release: `make ui`, then commit
+# static/ui/ and data/ui.json. The build runs it too, so the deployed site
+# carries the release's screenshots.
 
 OXROK := ../oxrok
+UI ?= ../ui
 HUGO ?= hugo
 PAGEFIND ?= pagefind
 
-.PHONY: all build data pages docs hugo pagefind check serve clean
+.PHONY: all build ui data pages docs hugo pagefind check serve clean
 
-all: data pages docs hugo pagefind check
+all: ui data pages docs hugo pagefind check
 
 # `build` is an alias for `all`: everything short of serving.
 build: all
+
+# Copy the UI screenshots from $(UI) into static/ui/ and write data/ui.json.
+ui:
+	python3 tools/sync-ui.py $(UI)
 
 data:
 	mkdir -p data

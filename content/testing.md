@@ -2,14 +2,14 @@
 title: Testing
 ---
 
-Most drivers here have never met their device. This page says what the
-project's tests prove, how they prove it, and where they stop.
+Most drivers here have never met their device. This page is about the only
+way to check them without the hardware — and where that checking stops.
 
 ## The problem
 
-libsigrok has 87 drivers for devices nobody here owns. Porting them from the C
+libsigrok has 87 drivers, for hardware none of us has. Porting them from the C
 source alone would give code that compiles and has never talked to anything.
-Recordings would need the devices too.
+Recordings are the usual fallback, but they need the devices too.
 
 ## The idea
 
@@ -44,14 +44,6 @@ libsigrok on the paths the cases reach, not correct behaviour on hardware.
 Timing is not real: models count the host's transfers rather than the clock, and
 USB/IP has no bus. So real evidence outranks it: recordings, manuals, history.
 Quirks the C relies on without saying cannot be found this way.
-
-## Reviews
-
-Each model and port also goes to a reviewer, another agent, reading it against
-the C, with mutation testing and stalls. The examples here are bugs found in
-oxrok's own ports: a late reply that shifted every later reading, a shared
-method built on a false comment about a dependency that caused a hang, and a
-model whose checks never fired in any test.
 
 Numbers: **{{% numbers %}}**
 
