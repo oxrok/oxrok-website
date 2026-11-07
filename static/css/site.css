@@ -113,25 +113,6 @@ img { max-width: 100%; height: auto; }
 
 main.wrap { flex: 1; width: 100%; }
 
-/* skip link */
-
-.skip {
-  position: fixed;
-  top: 0.6rem;
-  left: 0.6rem;
-  z-index: 100;
-  font-size: 0.85rem;
-  font-weight: 600;
-  background: var(--accent);
-  color: var(--on-accent);
-  padding: 0.5rem 0.9rem;
-  border-radius: 6px;
-  text-decoration: none;
-  transform: translateY(-4.5rem);
-  transition: transform 0.15s;
-}
-.skip:focus { transform: none; }
-
 /* header */
 
 .site { border-bottom: 1px solid var(--border); }
