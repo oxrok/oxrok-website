@@ -3,10 +3,11 @@
 
 The repo stays the source: this regenerates the copies on every build.
 CLI.md, DEVICES.md, DRIVER_PORTING.md and ROADMAP.md name libsigrok's
-bugs throughout, so they are not rendered; the CLI guide is written for
-the site (content/docs/cli.md). DECODERS.md and USB.md are copied, with
-front matter added, and with the phrase "a libsigrok bug" neutralised so
-the site never names a bug in libsigrok.
+bugs throughout, so they are not rendered; the CLI and USB guides are
+written for the site, and USB.md goes too deep for a user guide.
+DECODERS.md is copied, with front matter added, and with the phrase
+"a libsigrok bug" neutralised so the site never names a bug in
+libsigrok.
 """
 
 import re
@@ -19,7 +20,6 @@ out.mkdir(parents=True, exist_ok=True)
 
 docs = {
     "DECODERS.md": ("decoders", "Protocol decoders"),
-    "USB.md": ("usb", "USB and emulation"),
 }
 
 for src, (slug, title) in docs.items():

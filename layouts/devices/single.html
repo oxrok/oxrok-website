@@ -6,6 +6,7 @@
   {{ if eq .key $.Params.key }}{{ $d = . }}{{ end }}
 {{ end }}
   {{ if $d }}
+  <p class="back"><a href="{{ "devices/" | relURL }}">← All drivers</a></p>
   <div class="dhead">
     <h1>{{ $d.name }}</h1>
     {{ range $s := $d.status }}
@@ -15,7 +16,9 @@
   <p class="dmeta">{{ if $d.vendor }}{{ $d.vendor }} · {{ end }}{{ $d.kind }} · {{ $d.connection }}</p>
 
   {{ if $d.models }}
-  <p>Covers: {{ range $i, $m := $d.models }}{{ if $i }}, {{ end }}{{ $m }}{{ end }}</p>
+  <p class="modelrow"><span class="mlabel">Covers</span>
+    {{ range $d.models }}<span class="chip">{{ . }}</span>{{ end }}
+  </p>
   {{ end }}
 
   {{ if eq (index $d.status 0) "not-ported" }}
@@ -24,7 +27,10 @@
 
   <h2>Connect</h2>
   {{ if $d.ids }}
-  <p class="conn">oxrok -d {{ index $d.ids 0 }}</p>
+  <div class="connbox">
+    <button class="copy" type="button">copy</button>
+    <p class="conn">oxrok -d {{ index $d.ids 0 }}</p>
+  </div>
   {{ else }}
   <p>No driver id yet.</p>
   {{ end }}

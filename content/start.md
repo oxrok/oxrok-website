@@ -2,8 +2,8 @@
 title: Getting started
 ---
 
-A path of five small steps, each a command and its output, using `demo` so
-anyone can follow with no hardware.
+Five steps, all with the built-in `demo` driver — no hardware needed. If you
+haven't installed oxrok yet, do [that](/install/) first.
 
 ## 1. List the drivers
 
@@ -54,16 +54,15 @@ The demo's random analog channel differs from run to run in both tools.
 
 ## 4. Trigger
 
-`-t` arms a trigger, `-w` waits for it before saving data. The form is
-`channel=match`:
+`-t` arms a trigger, `-w` waits for it before saving data. The match is
+written `channel=value`, so `D0=r` fires on a rising edge of D0:
 
 ```
 $ oxrok -d demo -t 'D0=r' -w --samples 4 -O bits
 ```
 
-`D0:r` is the wrong form (that is a scan option, not a trigger match), and a
-capture with no limit only prints the usage. The right form is `D0=r`: fire on
-a rising edge of D0.
+Two forms that bite: `D0:r` is a scan option, not a trigger match, and a
+capture with no limit only prints the usage.
 
 ## 5. Decode
 

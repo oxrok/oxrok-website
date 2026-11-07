@@ -2,6 +2,9 @@
 title: Install
 ---
 
+One binary, built with `cargo` alone, with static builds for Linux, macOS and
+Windows. Only pre-releases are out so far, so pin the version.
+
 ## From crates.io
 
 With Rust 1.95 or newer:

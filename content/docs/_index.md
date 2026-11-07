@@ -8,8 +8,8 @@ Reference for the command line and the transports.
   exit status.
 - [Protocol decoders](/docs/decoders/) — the decoder runtime, the native
   decoders, and the Python decoder host.
-- [USB and emulation](/docs/usb/) — the transports, record and replay, and the
-  USB/IP device model.
+- [USB and emulation](/docs/usb/) — the transports, recording and
+  replaying a misbehaving driver, and the USB/IP device model.
 
 The deeper per-device and porting docs stay in the
 [repository](https://github.com/oxrok/oxrok/tree/main/docs), for developers.

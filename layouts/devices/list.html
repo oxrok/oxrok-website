@@ -7,22 +7,9 @@
   <a href="{{ "testing/" | relURL }}">testing page</a> says what each status
   does and does not prove.</p>
 
-  <table>
-    <tr>
-      <th>Status</th>
-      <th>Meaning</th>
-    </tr>
-    <tr><td><span class="badge hw">Hardware</span></td><td>Run on the real device, by us</td></tr>
-    <tr><td><span class="badge standin">Stand-in</span></td><td>Run over a real bus on a microcontroller acting as the device</td></tr>
-    <tr><td><span class="badge emu">Emulated</span></td><td>Compared with libsigrok on an emulated device; never on hardware</td></tr>
-    <tr><td><span class="badge software">Software</span></td><td>A software driver, checked by the software cases of the differential script</td></tr>
-    <tr><td><span class="badge replay">Replay</span></td><td>Checked only against recordings</td></tr>
-    <tr><td><span class="badge none">Not ported</span></td><td>In libsigrok, not here yet</td></tr>
-  </table>
-
-  <form class="filters">
-    <input type="search" id="q" placeholder="Search names and models" aria-label="Search devices">
-    <select id="kind" aria-label="Filter by kind">
+  <form class="filters" action="{{ "devices/" | relURL }}" method="get">
+    <input type="search" id="q" name="q" placeholder="Search names and models" aria-label="Search devices">
+    <select id="kind" name="kind" aria-label="Filter by kind">
       <option value="">All kinds</option>
       <option value="logic-analyzer">Logic analyzer</option>
       <option value="scope">Scope</option>
@@ -32,7 +19,7 @@
       <option value="generator">Generator</option>
       <option value="other">Other</option>
     </select>
-    <select id="status" aria-label="Filter by status">
+    <select id="status" name="status" aria-label="Filter by status">
       <option value="">All statuses</option>
       <option value="hardware">Hardware</option>
       <option value="stand-in">Stand-in</option>
@@ -41,14 +28,16 @@
       <option value="replay">Replay</option>
       <option value="not-ported">Not ported</option>
     </select>
-    <select id="conn" aria-label="Filter by connection">
+    <select id="conn" name="conn" aria-label="Filter by connection">
       <option value="">All connections</option>
       <option value="usb">USB</option>
       <option value="serial">Serial</option>
       <option value="tcp">TCP</option>
       <option value="hid">HID</option>
     </select>
+    <button type="button" class="clear" id="clear" style="display:none">clear</button>
   </form>
+  <p class="count" id="count" aria-live="polite"></p>
 
   <table class="devtable">
     <thead>
@@ -58,10 +47,10 @@
         <th>Connection</th>
         <th>Status</th>
         <th class="num">Cases</th>
-        <th class="num">Coverage</th>
       </tr>
     </thead>
     <tbody>
+      <tr id="none" style="display:none"><td colspan="5">No drivers match those filters.</td></tr>
       {{ range $drivers }}
       {{ $best := "not-ported" }}
       {{ $bestp := 0 }}
@@ -84,10 +73,22 @@
         <td data-label="Connection">{{ .connection }}</td>
         <td data-label="Status"><span class="badge {{ $class }}">{{ $label }}</span></td>
         <td data-label="Cases" class="num">{{ .cases }}</td>
-        <td data-label="Coverage" class="num">{{ if .coverage }}{{ (index .coverage 0).pct }}%{{ else }}&ndash;{{ end }}</td>
       </tr>
       {{ end }}
     </tbody>
+  </table>
+
+  <table>
+    <tr>
+      <th>Status</th>
+      <th>Meaning</th>
+    </tr>
+    <tr><td><span class="badge hw">Hardware</span></td><td>Run on the real device, by us</td></tr>
+    <tr><td><span class="badge standin">Stand-in</span></td><td>Run over a real bus on a microcontroller acting as the device</td></tr>
+    <tr><td><span class="badge emu">Emulated</span></td><td>Compared with libsigrok on an emulated device; never on hardware</td></tr>
+    <tr><td><span class="badge software">Software</span></td><td>A software driver, checked by the software cases of the differential script</td></tr>
+    <tr><td><span class="badge replay">Replay</span></td><td>Checked only against recordings</td></tr>
+    <tr><td><span class="badge none">Not ported</span></td><td>In libsigrok, not here yet</td></tr>
   </table>
 
   <p><a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">Have one? Tell us</a> —
@@ -99,9 +100,21 @@
       var kind = document.getElementById("kind");
       var status = document.getElementById("status");
       var conn = document.getElementById("conn");
-      var rows = Array.from(document.querySelectorAll(".devtable tbody tr"));
+      var clear = document.getElementById("clear");
+      var count = document.getElementById("count");
+      var none = document.getElementById("none");
+      var rows = Array.from(document.querySelectorAll(".devtable tbody tr[data-kind]"));
+
+      // A link here with ?q=... (the home page search) pre-fills the filter.
+      var params = new URLSearchParams(location.search);
+      if (params.get("q")) q.value = params.get("q");
+      if (params.get("kind")) kind.value = params.get("kind");
+      if (params.get("status")) status.value = params.get("status");
+      if (params.get("conn")) conn.value = params.get("conn");
+
       function apply() {
         var needle = q.value.trim().toLowerCase();
+        var shown = 0;
         rows.forEach(function (r) {
           var ok = true;
           if (needle && r.dataset.search.toLowerCase().indexOf(needle) === -1) ok = false;
@@ -109,9 +122,24 @@
           if (status.value && r.dataset.status !== status.value) ok = false;
           if (conn.value && r.dataset.conn !== conn.value) ok = false;
           r.style.display = ok ? "" : "none";
+          if (ok) shown++;
         });
+        none.style.display = shown ? "none" : "";
+        var filtered = q.value || kind.value || status.value || conn.value;
+        clear.style.display = filtered ? "" : "none";
+        count.textContent = filtered
+          ? shown + " of " + rows.length + " drivers shown"
+          : rows.length + " drivers";
       }
-      [q, kind, status, conn].forEach(function (el) { el.addEventListener("input", apply); });
+      [q, kind, status, conn].forEach(function (el) {
+        el.addEventListener("input", apply);
+      });
+      clear.addEventListener("click", function () {
+        q.value = ""; kind.value = ""; status.value = ""; conn.value = "";
+        history.replaceState(null, "", location.pathname);
+        apply();
+        q.focus();
+      });
       apply();
     })();
   </script>

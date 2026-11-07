@@ -2,19 +2,29 @@
 {{ $data := .Site.Data }}
 {{ $m := $data.drivers.meta }}
   <div class="hero">
-    <h1>oxrok</h1>
-    <p class="lede">A sigrok-compatible stack in Rust for logic analyzers, scopes and
-    meters: a library, drivers and a command line tool. It builds with
-    <code>cargo</code> alone, links no C sigrok library, and takes sigrok-cli's
-    flags, file formats, driver ids and decoder ids.</p>
-    <span class="tag">Experimental. Most drivers have never run on real hardware.</span>
+    <h1>The sigrok stack, in Rust</h1>
+    <p class="lede">A library, drivers and a command line tool for logic analyzers, scopes and
+    meters. It builds with <code>cargo</code> alone, links no C sigrok library,
+    and takes sigrok-cli's flags, file formats, driver ids and decoder ids.</p>
+    <div class="hero-meta">
+      <span class="tag">Experimental. Most drivers have never run on real hardware.</span>
+      <span class="ver">v{{ $m.version }}</span>
+    </div>
+    <div class="cta">
+      <a class="btn" href="{{ "start/" | relURL }}">Get started</a>
+      <a class="btn ghost" href="{{ "devices/" | relURL }}">Find your device</a>
+    </div>
   </div>
 
   <div class="term">
     <button class="copy" type="button">copy</button>
+    {{ $lines := split (strings.TrimSuffix "\n" $m.demo.out) "\n" }}
     <pre><span class="prompt">$</span> {{ $m.demo.install }}
 <span class="prompt">$</span> {{ $m.demo.cmd }}
-{{ $m.demo.out }}</pre>
+{{ range first 3 $lines }}{{ . }}
+{{ end }}<span class="more">…</span>
+{{ range last 8 $lines }}{{ . }}
+{{ end }}</pre>
   </div>
 
   <div class="cols">
@@ -37,16 +47,22 @@
   </div>
 
   <div class="strip">
-    <span><b>{{ $m.ported }}</b> of libsigrok's <b>{{ $m.libsigrok_total }}</b> drivers</span>
-    <span><b>{{ $m.cases_total | int }}</b> emulator cases</span>
-    <span><b>{{ $m.hardware }}</b> on real hardware</span>
-    <a href="{{ "devices/" | relURL }}">all drivers →</a>
+    <div class="stat"><b>{{ $m.ported }}</b><span>of libsigrok's {{ $m.libsigrok_total }} drivers</span></div>
+    <div class="stat"><b>{{ $m.cases_total | int }}</b><span>emulator cases</span></div>
+    <div class="stat"><b>{{ $m.hardware }}</b><span>on real hardware</span></div>
+    <a class="more" href="{{ "devices/" | relURL }}">all drivers →</a>
   </div>
 
   <h2>Find your device</h2>
   <form class="filters" action="{{ "devices/" | relURL }}" method="get">
     <input type="search" name="q" placeholder="Search devices and models, e.g. UT61E" aria-label="Search devices">
   </form>
+  <p class="chips">Try:
+    <a href="{{ "devices/" | relURL }}?q=UT61E">UT61E</a>
+    <a href="{{ "devices/" | relURL }}?q=Saleae">Saleae</a>
+    <a href="{{ "devices/" | relURL }}?q=Rigol">Rigol</a>
+    <a href="{{ "devices/" | relURL }}?q=Hantek">Hantek</a>
+  </p>
 
   <h2>How it was written</h2>
   <p>oxrok is a translation of the sigrok C and Python code into Rust, done by a
@@ -63,6 +79,7 @@
   run unmodified against it. Every transaction is logged and compared. The models
   are built to misbehave — stalls, unplugs, late replies, bad frames.
   <a href="{{ "testing/" | relURL }}">The whole method, and what it cannot tell you</a>.</p>
+  {{ partial "emulator" . }}
   <p><img src="{{ "vusb/lockup.svg" | relURL }}" alt="vusb" width="180" style="height:auto">
   The models run on <a href="{{ "vusb/" | relURL }}">vusb</a>, a virtual USB
   library that puts a device on the bus that is only Rust code.</p>

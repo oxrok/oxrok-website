@@ -10,9 +10,12 @@ OXROK := ../oxrok
 HUGO ?= hugo
 PAGEFIND ?= pagefind
 
-.PHONY: all data pages docs hugo pagefind check serve clean
+.PHONY: all build data pages docs hugo pagefind check serve clean
 
 all: data pages docs hugo pagefind check
+
+# `build` is an alias for `all`: everything short of serving.
+build: all
 
 data:
 	mkdir -p data

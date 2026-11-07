@@ -5,24 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}oxrok</title>
   <meta name="description" content="{{ .Description | default .Site.Params.description }}">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fbfbf9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101216" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="{{ if not .IsHome }}{{ .Title }} · {{ end }}oxrok">
+  <meta property="og:description" content="{{ .Description | default .Site.Params.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <meta property="og:image" content="{{ "logo/avatar.png" | absURL }}">
   <link rel="icon" href="{{ "logo/mark.svg" | relURL }}">
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
   <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
   <link rel="alternate" type="application/rss+xml" title="oxrok" href="{{ "index.xml" | relURL }}">
-  <meta name="color-scheme" content="light dark">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap">
     <a class="brand" href="{{ "/" | relURL }}">
       <img src="{{ "logo/lockup.svg" | relURL }}" alt="oxrok" width="132" height="47">
     </a>
-    <nav>
-      <a href="{{ "devices/" | relURL }}">Devices</a>
-      <a href="{{ "start/" | relURL }}">Get started</a>
-      <a href="{{ "testing/" | relURL }}">Testing</a>
-      <a href="{{ "docs/" | relURL }}">Docs</a>
-      <a href="{{ "blog/" | relURL }}">Blog</a>
+    {{ $p := .RelPermalink }}
+    <nav aria-label="Site">
+      <a href="{{ "devices/" | relURL }}"{{ if hasPrefix $p (relURL "devices/") }} aria-current="page"{{ end }}>Devices</a>
+      <a href="{{ "start/" | relURL }}"{{ if hasPrefix $p (relURL "start/") }} aria-current="page"{{ end }}>Get started</a>
+      <a href="{{ "testing/" | relURL }}"{{ if hasPrefix $p (relURL "testing/") }} aria-current="page"{{ end }}>Testing</a>
+      <a href="{{ "docs/" | relURL }}"{{ if hasPrefix $p (relURL "docs/") }} aria-current="page"{{ end }}>Docs</a>
+      <a href="{{ "blog/" | relURL }}"{{ if hasPrefix $p (relURL "blog/") }} aria-current="page"{{ end }}>Blog</a>
       <a class="gh" href="{{ .Site.Params.repo }}" rel="noopener">GitHub</a>
       <span id="pagefind"></span>
     </nav>
@@ -47,6 +56,38 @@
 <script>
   window.addEventListener("DOMContentLoaded", function () {
     new PagefindUI({ element: "#pagefind", showSubFields: true });
+  });
+</script>
+<script>
+  // Copy buttons on terminal blocks and connect lines.
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("button.copy");
+    if (!b) return;
+    var host = b.closest(".term") || b.closest(".connbox");
+    if (!host) return;
+    var src = host.querySelector("pre, .conn");
+    if (!src) return;
+    var copy = src.cloneNode(true);
+    copy.querySelectorAll(".prompt").forEach(function (el) { el.remove(); });
+    var text = copy.innerText.trim();
+    var done = function () {
+      b.textContent = "copied";
+      b.classList.add("done");
+      setTimeout(function () {
+        b.textContent = "copy";
+        b.classList.remove("done");
+      }, 1400);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () {});
+    } else {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); done(); } catch (err) {}
+      document.body.removeChild(ta);
+    }
   });
 </script>
 </body>
