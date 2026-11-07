@@ -9,8 +9,8 @@ can try it without hardware.
 
 <div class="term">
   <button class="copy" type="button">copy</button>
-  <pre><span class="prompt">$</span> <span class="cmd">cargo install oxrok-ui</span>
-<span class="prompt">$</span> <span class="cmd">cargo install --features mock oxrok-ui</span>  # no hardware: the built-in mock devices</pre>
+  <pre><span class="prompt">$</span> <span class="cmd">cargo install oxrok-ui --version {{% uiversion %}} --locked</span>
+<span class="prompt">$</span> <span class="cmd">cargo install --features mock oxrok-ui --version {{% uiversion %}} --locked</span>  # no hardware: the built-in mock devices</pre>
 </div>
 
 ## The capture view
