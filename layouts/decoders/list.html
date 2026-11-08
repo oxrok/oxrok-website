@@ -74,6 +74,14 @@
   {{ $docs := printf "<a href=\"%s\">%s</a>" (relURL "docs/decoders/") (T "dec_docs_link") }}
   <p>{{ replace (T "dec_checked_p") "{link}" $docs | safeHTML }}</p>
 
+  <h2 id="examples">{{ T "dec_examples_h" }}</h2>
+  <p>{{ T "dec_examples_p" }}</p>
+  {{ range .Site.Data.decoders.examples }}
+  <h3>{{ T (printf "dec_ex_%s_h" .key) }}</h3>
+  <p>{{ T (printf "dec_ex_%s_p" .key) | safeHTML }}</p>
+  {{ partial "decoder-example.html" (dict "ex" . "ctx" $) }}
+  {{ end }}
+
   <h2 id="all">{{ T "dec_all_h" }}</h2>
   <form class="filters" action="{{ "decoders/" | relLangURL }}" method="get">
     <input type="search" id="q" name="q" placeholder="{{ T "dec_search_placeholder" }}" aria-label="{{ T "dec_search_aria" }}">
@@ -107,7 +115,7 @@
           data-search="{{ .id }} {{ .name }} {{ .longname }} {{ .desc }}">
         <td data-label="{{ T "col_decoder" }}"><a href="{{ printf "decoders/%s/" .id | relLangURL }}">{{ .name }}</a><br>
           <span class="id">{{ .id }}</span></td>
-        <td data-label="{{ T "col_input" }}">{{ if eq .kind "logic" }}{{ T "dec_input_logic" }}{{ else }}<code>{{ .input }}</code>{{ end }}</td>
+        <td data-label="{{ T "col_input" }}"><code>{{ .input }}</code></td>
         <td data-label="{{ T "col_tags" }}" class="models">{{ delimit .tags ", " }}</td>
         <td data-label="{{ T "col_status" }}"><span class="badge {{ index $cls .status }}">{{ T (printf "dec_status_%s" .status) }}</span></td>
       </tr>

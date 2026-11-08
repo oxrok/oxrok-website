@@ -498,3 +498,34 @@ other = "Write a class to stdout with -B {{ .id }}=class."
 other = "native decoder checklist"
 [decpage_not_found]
 other = "Decoder not found"
+
+# --- Decoder examples (data/decoders.json "examples") -----------------------
+
+[dec_examples_h]
+other = "Examples"
+[dec_examples_p]
+other = "Real runs on captures from oxrok's test fixtures; the output is what this release prints, regenerated on every build. Channel names come from the capture: map a decoder channel to one with channel=NAME."
+[dec_ex_uart_h]
+other = "Decode one bus"
+[dec_ex_uart_p]
+other = "Options follow the decoder id, separated by colons. <code>-A</code> keeps one annotation class, here the received bytes, shown as ASCII."
+[dec_ex_can_h]
+other = "Set the bit rate, pick a row"
+[dec_ex_can_p]
+other = "A CAN bus at 125 kbit/s. <code>-A can=fields</code> selects a whole annotation row instead of single classes."
+[dec_ex_midi_h]
+other = "Stack decoders"
+[dec_ex_midi_p]
+other = "A comma stacks one decoder on the one before it: <code>uart</code> turns the line into bytes, <code>midi</code> turns the bytes into notes. Only the top layer is shown."
+[dec_ex_eeprom_h]
+other = "Show several layers"
+[dec_ex_eeprom_p]
+other = "<code>-A</code> takes a list, one entry per decoder. The layers interleave in the order they were decoded, as with sigrok-cli."
+[dec_ex_binary_h]
+other = "Binary output"
+[dec_ex_binary_p]
+other = "<code>-B</code> writes a binary class to stdout instead of annotations, here the bytes written on the I²C bus."
+[dec_ex_meta_h]
+other = "Metadata"
+[dec_ex_meta_p]
+other = "<code>-M</code> shows the values a decoder measures, here the I²C bit rate of each transfer."

@@ -26,6 +26,13 @@
   <p class="dmeta">{{ T "decpage_chain" }}</p>
   {{ end }}
 
+  {{ range .Site.Data.decoders.examples }}
+  {{ if in .chain $d.id }}
+  <h3>{{ T (printf "dec_ex_%s_h" .key) }}</h3>
+  {{ partial "decoder-example.html" (dict "ex" . "ctx" $) }}
+  {{ end }}
+  {{ end }}
+
   <h2>{{ T "decpage_backends" }}</h2>
   <ul>
     {{ if $d.native }}
@@ -76,7 +83,7 @@
   <h2>{{ T "decpage_stacking" }}</h2>
   <dl class="kv">
     <dt>{{ T "decpage_input" }}</dt>
-    <dd>{{ if eq $d.kind "logic" }}{{ T "dec_input_logic" }}{{ else }}
+    <dd>{{ if eq $d.kind "logic" }}<code>logic</code>{{ else }}
       {{ $in := $d.input }}{{ $found := false }}
       {{ range $decs }}{{ if and (not $found) (in .outputs $in) }}{{ $found = true }}<a href="{{ printf "decoders/%s/" .id | relLangURL }}"><code>{{ .id }}</code></a>{{ end }}{{ end }}
       {{ if not $found }}<code>{{ $in }}</code>{{ end }}

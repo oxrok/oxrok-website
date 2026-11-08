@@ -249,6 +249,74 @@ for d in decoders.values():
         if o["id"] != d["id"] and o["input"] and o["input"] in d["outputs"]
     )
 
+# 5. examples: real runs on the captures in oxrok's tests/fixtures, so the
+# output shown on the site is what this build prints. A command that fails,
+# prints nothing, or names a decoder that does not exist fails the build.
+# The page shows the capture by its file name. Titles and prose are the
+# i18n keys dec_ex_<key>_h and dec_ex_<key>_p.
+fixtures = repo / "tests" / "fixtures"
+EXAMPLES = [
+    ("uart", "uart-hi.vcd",
+     ["-P", "uart:baudrate=115200:rx=top.D0:format=ascii", "-A", "uart=rx-data"], None),
+    ("can", "decoders/can/mcp2515dm-bm-125kbits_msg_222_5bytes.sr",
+     ["-P", "can:can_rx=CAN_RX:nominal_bitrate=125000", "-A", "can=fields"], None),
+    ("midi", "decoders/midi/midi_key1.sr",
+     ["-P", "uart:rx=RX:baudrate=31250,midi", "-A", "midi"], None),
+    ("eeprom", "decoders/eeprom24xx/lcsoft-mini-board-fx2-init.sr",
+     ["-P", "i2c:scl=SCL:sda=SDA,eeprom24xx", "-A", "i2c=addr-data,eeprom24xx=ops"], None),
+    ("binary", "i2c-write-read.vcd",
+     ["-P", "i2c:scl=top.scl:sda=top.sda", "-B", "i2c=data-write"], "xxd"),
+    ("meta", "i2c-write-read.vcd",
+     ["-P", "i2c:scl=top.scl:sda=top.sda", "-M", "i2c"], None),
+]
+MAX_LINES = 12
+
+
+def xxd(data):
+    lines = []
+    for off in range(0, len(data), 16):
+        chunk = data[off:off + 16]
+        hexs = " ".join(chunk[i:i + 2].hex() for i in range(0, len(chunk), 2))
+        text = "".join(chr(b) if 32 <= b < 127 else "." for b in chunk)
+        lines.append(f"{off:08x}: {hexs:<39}  {text}")
+    return "\n".join(lines)
+
+
+examples = []
+for key, capture, args, pipe in EXAMPLES:
+    path = fixtures / capture
+    if not path.is_file():
+        errors.append(f"example {key}: missing capture {path}")
+        continue
+    pd = args[args.index("-P") + 1]
+    for spec_ in pd.split(","):
+        if spec_.split(":")[0] not in decoders:
+            errors.append(f"example {key}: unknown decoder in {pd!r}")
+    r = subprocess.run([str(binary), "-i", str(path), *args], capture_output=True)
+    if r.returncode != 0 or not r.stdout:
+        errors.append(f"example {key}: exit {r.returncode}, {len(r.stdout)} bytes: "
+                      f"{r.stderr.decode(errors='replace').strip()}")
+        continue
+    if pipe == "xxd":
+        text = xxd(r.stdout)
+    else:
+        text = r.stdout.decode()
+    lines = text.rstrip("\n").splitlines()
+    more = len(lines) > MAX_LINES
+    cmd = f"oxrok -i {Path(capture).name} {' '.join(args)}" + (" | xxd" if pipe == "xxd" else "")
+    examples.append({
+        "key": key,
+        "cmd": cmd,
+        "out": "\n".join(lines[:MAX_LINES]),
+        "more": more,
+        "chain": [s.split(":")[0] for s in pd.split(",")],
+    })
+
+if errors:
+    for e in errors:
+        print(f"decoder-data: {e}", file=sys.stderr)
+    sys.exit(1)
+
 out = sorted(decoders.values(), key=lambda d: d["id"])
 tags = sorted({t for d in out for t in d["tags"]})
 meta = {
@@ -263,5 +331,5 @@ meta = {
     "tags": tags,
 }
 
-json.dump({"meta": meta, "decoders": out}, sys.stdout, indent=1, ensure_ascii=False)
+json.dump({"meta": meta, "examples": examples, "decoders": out}, sys.stdout, indent=1, ensure_ascii=False)
 print()

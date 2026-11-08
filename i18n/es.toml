@@ -486,3 +486,34 @@ other = "Escribe una clase en la salida estándar con -B {{ .id }}=clase."
 other = "lista de decodificadores nativos"
 [decpage_not_found]
 other = "Decodificador no encontrado"
+
+# --- Decoder examples (data/decoders.json "examples") -----------------------
+
+[dec_examples_h]
+other = "Ejemplos"
+[dec_examples_p]
+other = "Ejecuciones reales sobre capturas de los fixtures de prueba de oxrok; la salida es lo que imprime esta versión, regenerada en cada compilación. Los nombres de canal vienen de la captura: asigna un canal del decodificador a uno de ellos con canal=NOMBRE."
+[dec_ex_uart_h]
+other = "Decodificar un bus"
+[dec_ex_uart_p]
+other = "Las opciones siguen al id del decodificador, separadas por dos puntos. <code>-A</code> deja una sola clase de anotación, aquí los bytes recibidos, mostrados en ASCII."
+[dec_ex_can_h]
+other = "Fijar la velocidad, elegir una fila"
+[dec_ex_can_p]
+other = "Un bus CAN a 125 kbit/s. <code>-A can=fields</code> selecciona una fila de anotaciones entera en lugar de clases sueltas."
+[dec_ex_midi_h]
+other = "Apilar decodificadores"
+[dec_ex_midi_p]
+other = "Una coma apila un decodificador sobre el anterior: <code>uart</code> convierte la línea en bytes y <code>midi</code> convierte los bytes en notas. Solo se muestra la capa superior."
+[dec_ex_eeprom_h]
+other = "Mostrar varias capas"
+[dec_ex_eeprom_p]
+other = "<code>-A</code> acepta una lista, una entrada por decodificador. Las capas se intercalan en el orden en que se decodificaron, como en sigrok-cli."
+[dec_ex_binary_h]
+other = "Salida binaria"
+[dec_ex_binary_p]
+other = "<code>-B</code> escribe una clase binaria en la salida estándar en lugar de anotaciones, aquí los bytes escritos en el bus I²C."
+[dec_ex_meta_h]
+other = "Metadatos"
+[dec_ex_meta_p]
+other = "<code>-M</code> muestra los valores que mide un decodificador, aquí la velocidad de bits I²C de cada transferencia."

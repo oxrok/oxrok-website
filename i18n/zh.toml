@@ -486,3 +486,34 @@ other = "用 -B {{ .id }}=类别 将某个类别写到标准输出。"
 other = "原生解码器清单"
 [decpage_not_found]
 other = "未找到解码器"
+
+# --- Decoder examples (data/decoders.json "examples") -----------------------
+
+[dec_examples_h]
+other = "示例"
+[dec_examples_p]
+other = "在 oxrok 测试夹具中的采集数据上真实运行；输出就是本版本打印的内容，每次构建都会重新生成。通道名称来自采集数据：用 通道=名称 把解码器通道映射到采集中的通道。"
+[dec_ex_uart_h]
+other = "解码一条总线"
+[dec_ex_uart_p]
+other = "选项跟在解码器 id 后面，用冒号分隔。<code>-A</code> 只保留一个注释类别，这里是接收到的字节，以 ASCII 显示。"
+[dec_ex_can_h]
+other = "设置比特率，选择注释行"
+[dec_ex_can_p]
+other = "一条 125 kbit/s 的 CAN 总线。<code>-A can=fields</code> 选择整行注释，而不是单个类别。"
+[dec_ex_midi_h]
+other = "堆叠解码器"
+[dec_ex_midi_p]
+other = "逗号把一个解码器堆叠在前一个之上：<code>uart</code> 把线路信号变成字节，<code>midi</code> 把字节变成音符。只显示最上层。"
+[dec_ex_eeprom_h]
+other = "显示多层"
+[dec_ex_eeprom_p]
+other = "<code>-A</code> 接受一个列表，每个解码器一项。各层按解码顺序交错输出，与 sigrok-cli 相同。"
+[dec_ex_binary_h]
+other = "二进制输出"
+[dec_ex_binary_p]
+other = "<code>-B</code> 把一个二进制类别写到标准输出而不是注释，这里是 I²C 总线上写入的字节。"
+[dec_ex_meta_h]
+other = "元数据"
+[dec_ex_meta_p]
+other = "<code>-M</code> 显示解码器测得的值，这里是每次传输的 I²C 比特率。"

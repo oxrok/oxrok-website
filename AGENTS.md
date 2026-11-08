@@ -28,6 +28,10 @@ repo at build time:
   from `oxrok -L`, `oxrok -P <id> --show` and the checklist in
   `../oxrok/docs/NATIVE_DECODERS.md`, and is **gitignored**. It fails the build
   if the binary and the checklist disagree on which decoders are native.
+  The decoder examples (list in `EXAMPLES` there) are real runs on captures in
+  `../oxrok/tests/fixtures`; a command that fails or prints nothing fails the
+  build. Each example needs `dec_ex_<key>_h` and `dec_ex_<key>_p` in every
+  i18n catalog.
 - `content/decoders/*.md` are generated stubs by `tools/gen-decoder-pages.py`
   (`key`, `title`, `type: decoders`), written by `make pages` alongside the
   driver stubs.
