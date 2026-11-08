@@ -48,12 +48,15 @@ is *keeping* them in sync, not producing them once.
 
 ## 3. Languages
 
-**Ship first:** English (default), 简体中文 (`zh`), 日本語 (`ja`), Español
-(`es`), Français (`fr`), Deutsch (`de`).
-
-**Add next:** Русский (`ru`), 한국어 (`ko`).
+**Included (confirmed):** English (default), 简体中文 (`zh`), 日本語 (`ja`),
+Español (`es`), Français (`fr`), Deutsch (`de`), Русский (`ru`), 한국어 (`ko`).
 
 **Defer:** Português, Italiano, हिन्दी, العربية.
+
+Russian and Korean are confirmed in — they ship in a second wave, after the
+first six, because they reuse the CJK/infrastructure work and only add a second
+batch of strings to review. The first six languages are the priority; Russian and
+Korean follow on the same pipeline.
 
 Reasoning for the recommendations, briefly:
 
@@ -451,10 +454,11 @@ workflow from §7. This is the long tail and the ongoing cost. *Engineering:
 medium (overlay tooling + check). Translation: medium now (~900 words × 6),
 recurring and small each release.*
 
-**Phase 4 — Reference docs, and the second language wave.**
+**Phase 4 — Reference docs, and the confirmed second language wave.**
 Translate `cli.md`/`usb.md`/`decoders.md` if the owner wants (recommend deferring
-`decoders.md`), and add Russian and Korean, which are cheap once the pipeline and
-CJK handling exist. *Engineering: small. Translation: medium per item.*
+`decoders.md`), and add Russian and Korean (confirmed in), which are cheap once
+the pipeline and CJK handling exist. *Engineering: small. Translation: medium per
+item.*
 
 **Deferred / not doing:** blog translation, Arabic (RTL) until RTL is wanted,
 Portuguese/Italian/Hindi until there is evidence of demand.
