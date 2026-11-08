@@ -2,17 +2,17 @@
 title: Instalar
 ---
 
-Un solo binario, compilado solo con `cargo`, con compilaciones estáticas para Linux, macOS y Windows. Por ahora solo hay versiones preliminares, así que fija la versión.
+Un solo binario, compilado solo con `cargo`, con compilaciones estáticas para Linux, macOS y Windows. La última versión es 0.2.0.
 
 ## Desde crates.io
 
 Con Rust 1.95 o más reciente:
 
 ```
-cargo install oxrok --version 0.1.0-alpha.2 --locked
+cargo install oxrok --version 0.2.0 --locked
 ```
 
-La versión es necesaria: como solo hay versiones preliminares publicadas, sin ella cargo no encuentra nada. O, desde un checkout, que incluye lo fusionado desde entonces:
+O, desde un checkout, que incluye lo fusionado desde entonces:
 
 ```
 cargo install --path . --locked

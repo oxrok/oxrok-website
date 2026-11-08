@@ -28,6 +28,10 @@ jobs:
       # git ls-remote, not the releases API: the releases are pre-releases,
       # which releases/latest skips.
       #
+      # sort -V alone misorders a pre-release after its release ("v0.2.0-alpha.1"
+      # > "v0.2.0"), so map the "-" pre-release separator to "~", which sort -V
+      # ranks before the release, then map it back.
+      #
       # The site build needs the site machinery (tools/site-data,
       # docs/drivers.toml, tools/libsigrok-drivers.txt) in the checkout.
       # A release that predates it can't build the site, and overlaying
@@ -39,7 +43,7 @@ jobs:
         run: |
           tag=$(git ls-remote --tags https://github.com/oxrok/oxrok 'v*' \
             | awk '{print $2}' | sed 's|^refs/tags/||' | grep -v '\^{}' \
-            | sort -V | tail -n1)
+            | sed 's/-/~/' | sort -V | tail -n1 | sed 's/~/-/')
           test -n "$tag"
           ok=1
           for f in tools/site-data docs/drivers.toml tools/libsigrok-drivers.txt; do

@@ -3,18 +3,17 @@ title: Install
 ---
 
 One binary, built with `cargo` alone, with static builds for Linux, macOS and
-Windows. Only pre-releases are out so far, so pin the version.
+Windows. The latest release is 0.2.0.
 
 ## From crates.io
 
 With Rust 1.95 or newer:
 
 ```
-cargo install oxrok --version 0.1.0-alpha.2 --locked
+cargo install oxrok --version 0.2.0 --locked
 ```
 
-The version is needed: with only pre-releases published, cargo finds nothing
-without it. Or, from a checkout, which has what was merged since:
+Or, from a checkout, which has what was merged since:
 
 ```
 cargo install --path . --locked
