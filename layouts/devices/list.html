@@ -102,8 +102,8 @@
       var none = document.getElementById("none");
       var rows = Array.from(document.querySelectorAll(".devtable tbody tr[data-kind]"));
 
-      var shownTpl = {{ T "devices_count_shown" | jsonify }};
-      var totalTpl = {{ T "devices_count_total" | jsonify }};
+      var shownTpl = {{ T "devices_count_shown" | jsonify | safeJS }};
+      var totalTpl = {{ T "devices_count_total" | jsonify | safeJS }};
 
       // A link here with ?q=... (the home page search) pre-fills the filter.
       var params = new URLSearchParams(location.search);

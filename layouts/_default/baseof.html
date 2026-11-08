@@ -69,8 +69,8 @@
 </script>
 <script>
   // Copy buttons on terminal blocks and connect lines.
-  var COPY = {{ T "copy" | jsonify }};
-  var COPIED = {{ T "copied" | jsonify }};
+  var COPY = {{ T "copy" | jsonify | safeJS }};
+  var COPIED = {{ T "copied" | jsonify | safeJS }};
   document.addEventListener("click", function (e) {
     var b = e.target.closest("button.copy");
     if (!b) return;
