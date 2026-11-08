@@ -291,3 +291,198 @@ other = "设备文档"
 other = "报告测试结果"
 [dpage_not_found]
 other = "未找到该驱动"
+
+# --- Decoders (layouts/decoders/list.html) ----------------------------------
+
+[nav_decoders]
+other = "解码器"
+
+[dec_intro]
+other = "oxrok 使用 sigrok-cli 的参数运行 sigrok 的协议解码器：<code>-P</code> 运行解码器，<code>-A</code> 和 <code>-B</code> 选择输出。libsigrokdecode {{ .ref }} 的 {{ .total }} 个解码器中有 {{ .native }} 个是原生 Rust 实现；未经修改的 Python 解码器也能运行，可选 RustPython 或 CPython。"
+[dec_stat_native]
+other = "libsigrokdecode {{ .ref }} 的 {{ .total }} 个解码器已原生实现"
+[dec_stat_parity]
+other = "与 Python 原版做过一致性测试"
+[dec_stat_logic]
+other = "读取逻辑采样"
+[dec_stat_stacked]
+other = "堆叠在其他解码器之上"
+
+[dec_backends_h]
+other = "运行解码器的三种方式"
+[dec_backends_p]
+other = "同一个解码器 id 在哪里含义都一样：相同的通道、选项、注释类别和输出。不同的只是运行它的代码。"
+[dec_native_h]
+other = "原生"
+[dec_native_p]
+other = "用 Rust 编写、编译进 oxrok 的解码器。每个构建都包含它们，无需解释器，也无需安装任何文件。默认运行的就是它们。"
+[dec_rustpython_h]
+other = "RustPython"
+[dec_rustpython_p]
+other = "用 Rust 编写的 Python 解释器，连同标准库一起内置于程序中。它可直接运行 libsigrokdecode 的 <code>pd.py</code> 文件，机器上无需安装 Python。"
+[dec_cpython_h]
+other = "CPython"
+[dec_cpython_p]
+other = "系统自带的 Python，通过 PyO3 链接。它运行同样的 <code>pd.py</code> 文件，是两个 Python 宿主中较快的一个。"
+
+[dec_row_build]
+other = "构建"
+[dec_build_native]
+other = "始终启用"
+[dec_build_rustpython_note]
+other = "发布版二进制已启用"
+[dec_row_runs]
+other = "运行内容"
+[dec_runs_native]
+other = "编译进来的 Rust 解码器"
+[dec_runs_python]
+other = "libsigrokdecode 的 <code>pd.py</code> 解码器，原样运行，通过 oxrok 提供的 <code>sigrokdecode</code> 模块"
+[dec_row_needs]
+other = "运行时需要"
+[dec_needs_native]
+other = "无"
+[dec_needs_rustpython]
+other = "<code>decoders/</code> 目录"
+[dec_needs_cpython]
+other = "带共享库的 Python 3.9+，以及 <code>decoders/</code> 目录"
+[dec_row_for]
+other = "适用于"
+[dec_for_native]
+other = "日常解码"
+[dec_for_rustpython]
+other = "自己的或更新的 Python 解码器，无需安装其他东西"
+[dec_for_cpython]
+other = "已装有 Python 的机器上、在意解码耗时的 Python 解码器"
+
+[dec_choose_h]
+other = "实际运行哪一个"
+[dec_choose_p]
+other = "原生解码器总是优先于同 id 的 Python 解码器。Python 解码器的查找位置依次为 <code>OXROK_DECODERS_DIR</code>、<code>SIGROKDECODE_DIR</code>、可执行文件旁的 <code>decoders</code>、<code>~/.local/share/libsigrokdecode/decoders</code> 以及系统目录。两个 Python 宿主都编译进来时，除非设置 <code>OXROK_PYTHON=rustpython</code>，否则使用 CPython。原生与 Python 解码器可以自由堆叠：无论每一层由谁运行，<code>-P uart,midi</code> 都能工作。"
+[dec_install_p]
+other = "各个特性的构建命令见{link}。"
+[dec_install_link]
+other = "安装页面"
+
+[dec_checked_h]
+other = "如何验证"
+[dec_checked_p]
+other = "每个原生解码器都有一致性测试：它与移植来源的 Python 解码器在同一进程中、用相同的采集数据和配置运行，完整的输出序列（注释、采样范围、二进制输出、传给上层解码器的数据项和元数据）必须一致。sigrok-test 语料库是同一比较的更大规模、可选的运行。<code>uart</code>、<code>i2c</code> 和 <code>spi</code> 还与 sigrok-cli 逐字节比较。在 sigrok-test 的各项运行中，两个 Python 宿主输出的字节完全相同。详见{link}（英文）。"
+[dec_docs_link]
+other = "解码器文档"
+
+[dec_all_h]
+other = "全部解码器"
+[dec_search_placeholder]
+other = "搜索 id、名称和描述"
+[dec_search_aria]
+other = "搜索解码器"
+[dec_input_aria]
+other = "按输入筛选"
+[dec_tag_aria]
+other = "按标签筛选"
+[dec_all_inputs]
+other = "全部输入"
+[dec_all_tags]
+other = "全部标签"
+[dec_input_logic]
+other = "逻辑"
+[dec_input_stacked]
+other = "堆叠"
+
+[col_decoder]
+other = "解码器"
+[col_input]
+other = "输入"
+[col_tags]
+other = "标签"
+
+[dec_none]
+other = "没有符合筛选条件的解码器。"
+[dec_count_shown]
+other = "显示 {shown} / {total} 个解码器"
+[dec_count_total]
+other = "{total} 个解码器"
+
+[dec_status_parity]
+other = "原生"
+[dec_status_exception]
+other = "原生，有例外"
+[dec_status_native]
+other = "原生，未测试"
+[dec_status_python]
+other = "仅 Python"
+[dec_status_parity_meaning]
+other = "原生实现，一致性测试中输出与 Python 原版完全相同"
+[dec_status_exception_meaning]
+other = "原生实现，与 Python 原版有一处已记录的差异"
+[dec_status_native_meaning]
+other = "原生实现，尚未做一致性测试"
+[dec_status_python_meaning]
+other = "libsigrokdecode 中有，尚未原生实现；在 RustPython 或 CPython 上运行"
+
+# --- Decoder page (layouts/decoders/single.html) ----------------------------
+
+[decpage_back]
+other = "← 全部解码器"
+[decpage_run]
+other = "运行"
+[decpage_chain]
+other = "该解码器堆叠在其他解码器之上，因此命令会运行整条链。请按你的采集数据分配通道。"
+[decpage_backends]
+other = "后端"
+[decpage_native_yes]
+other = "原生：内置于每个 oxrok 二进制，默认使用。"
+[decpage_python_ref]
+other = "Python：原版 pd.py 也能在 RustPython 和 CPython 上运行，但原生解码器优先。"
+[decpage_native_no]
+other = "原生：尚未实现。"
+[decpage_python_only]
+other = "Python：在启用 <code>rustpython</code> 或 <code>python</code> 特性的构建上，从 libsigrokdecode 的 <code>decoders/</code> 运行。"
+[decpage_parity]
+other = "已通过一致性测试：在相同的采集数据和配置下，原生与 Python 解码器产生相同的输出序列。"
+[decpage_exception]
+other = "已记录的差异："
+[decpage_about]
+other = "说明"
+[decpage_channels]
+other = "通道"
+[decpage_required]
+other = "必需"
+[decpage_optional]
+other = "可选"
+[decpage_options]
+other = "选项"
+[decpage_col_id]
+other = "Id"
+[decpage_col_name]
+other = "名称"
+[decpage_col_desc]
+other = "描述"
+[decpage_col_default]
+other = "默认值"
+[decpage_col_values]
+other = "取值"
+[decpage_stacking]
+other = "堆叠"
+[decpage_input]
+other = "输入"
+[decpage_output]
+other = "输出"
+[decpage_stacked_by]
+other = "堆叠在其上的解码器"
+[decpage_annotations]
+other = "注释"
+[decpage_annotations_p]
+other = "用 -A {{ .id }}=行 或 -A {{ .id }}=类别:类别 选择注释行或类别。"
+[decpage_col_row]
+other = "行"
+[decpage_col_classes]
+other = "类别"
+[decpage_binary]
+other = "二进制输出"
+[decpage_binary_p]
+other = "用 -B {{ .id }}=类别 将某个类别写到标准输出。"
+[decpage_checklist]
+other = "原生解码器清单"
+[decpage_not_found]
+other = "未找到解码器"

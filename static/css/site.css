@@ -507,6 +507,15 @@ th {
   .strip .more { margin-left: 0; }
 }
 
+/* decoders: the backend comparison */
+
+.backends { font-size: 0.88rem; }
+.backends tbody th { color: var(--muted); font-weight: 500; text-align: left; }
+@media (max-width: 600px) {
+  .backends { display: block; overflow-x: auto; }
+}
+.modelrow a.chip:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+
 /* driver page */
 
 .back {
