@@ -1,6 +1,6 @@
 {
   "ui": {
-    "version": "0.2.0-alpha.1",
+    "version": "0.2.0",
     "source": "../ui/docs/screenshots",
     "files": {
       "analyzers.png": {
@@ -24,8 +24,8 @@
         "size": 293241
       },
       "start-screen.png": {
-        "sha256": "490f1145dc067f7074d6eea0123ceff0185617e39225438c00c840f0bca70ed4",
-        "size": 179285
+        "sha256": "aa80fa10180adf6fd8478419840a3a140ba8d317623377871796747a42e1e74f",
+        "size": 178156
       },
       "zoom-tool.png": {
         "sha256": "4c2e934e6d94b51a3a042380cba40ce22095b835f98b3a52acfdf8a4f76f90f1",
