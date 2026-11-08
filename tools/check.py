@@ -2,6 +2,8 @@
 """Checks for the built site, run in CI.
 
 - generated data is valid and every driver has a status
+- the decoder data is valid: every decoder has a status, and the native
+  count matches the decoders that are native
 - no broken internal links
 - no page over budget (home under 100 KB)
 - the site never names a bug in libsigrok
@@ -34,6 +36,25 @@ else:
             failures.append(f"meta missing {k}")
     print(f"data: {len(drivers)} drivers, {m.get('ported')} ported of "
           f"{m.get('libsigrok_total')}, {m.get('cases_total')} cases")
+
+# 1b. decoder data is valid
+dec_path = "data/decoders.json"
+if not os.path.isfile(dec_path):
+    failures.append(f"missing {dec_path}")
+else:
+    dec = json.loads(open(dec_path).read())
+    decs = dec["decoders"]
+    if not decs:
+        failures.append("no decoders in the data")
+    for d in decs:
+        if d.get("status") not in ("parity", "exception", "native", "python"):
+            failures.append(f"decoder {d.get('id')} has no valid status")
+    dm = dec["meta"]
+    if dm.get("native") != sum(1 for d in decs if d["native"]):
+        failures.append("decoder meta: native count does not match the decoders")
+    print(f"decoders: {len(decs)}, {dm.get('native')} native of "
+          f"{dm.get('total')} in libsigrokdecode {dm.get('reference')}, "
+          f"{dm.get('parity')} parity-tested")
 
 # 2. no broken internal links
 broken = 0

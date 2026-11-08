@@ -1,0 +1,9 @@
+{{- /* A decoder example from data/decoders.json: a real run on a capture
+       in oxrok's tests/fixtures. The copy button copies the command only. */ -}}
+{{- $ex := .ex -}}
+<div class="term">
+  <button class="copy" type="button">{{ T "copy" }}</button>
+  <pre><span class="prompt">$</span> <span class="cmd">{{ $ex.cmd }}</span>
+{{ $ex.out }}{{ if $ex.more }}
+<span class="more">…</span>{{ end }}</pre>
+</div>

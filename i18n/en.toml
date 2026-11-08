@@ -303,3 +303,229 @@ other = "device docs"
 other = "report a result"
 [dpage_not_found]
 other = "Driver not found"
+
+# --- Decoders (layouts/decoders/list.html) ----------------------------------
+
+[nav_decoders]
+other = "Decoders"
+
+[dec_intro]
+other = "oxrok runs sigrok's protocol decoders with sigrok-cli's flags: <code>-P</code> to run one, <code>-A</code> and <code>-B</code> to pick the output. {{ .native }} of the {{ .total }} decoders in libsigrokdecode {{ .ref }} are native Rust, and the unchanged Python decoders run too, on RustPython or CPython."
+[dec_stat_native]
+other = "of libsigrokdecode {{ .ref }}'s {{ .total }} decoders native"
+[dec_stat_parity]
+other = "parity-tested against the Python original"
+[dec_stat_logic]
+other = "read logic samples"
+[dec_stat_stacked]
+other = "stack on another decoder"
+
+[dec_backends_h]
+other = "Three ways to run a decoder"
+[dec_backends_p]
+other = "A decoder id means the same thing everywhere: the same channels, options, annotation classes and output. What changes is the code that runs it."
+[dec_native_h]
+other = "Native"
+[dec_native_p]
+other = "Decoders written in Rust and compiled into oxrok. Every build has them, with no interpreter and no files to install. They are what runs by default."
+[dec_rustpython_h]
+other = "RustPython"
+[dec_rustpython_p]
+other = "A Python interpreter written in Rust, built into the binary with its standard library. It runs libsigrokdecode's <code>pd.py</code> files unchanged and needs no Python on the machine."
+[dec_cpython_h]
+other = "CPython"
+[dec_cpython_p]
+other = "The system's own Python, linked through PyO3. It runs the same <code>pd.py</code> files and is the faster of the two Python hosts."
+
+[dec_row_build]
+other = "Build"
+[dec_build_native]
+other = "Always on"
+[dec_build_rustpython_note]
+other = "on in the release binaries"
+[dec_row_runs]
+other = "Runs"
+[dec_runs_native]
+other = "Rust decoders compiled in"
+[dec_runs_python]
+other = "libsigrokdecode's <code>pd.py</code> decoders, unchanged, through a <code>sigrokdecode</code> module oxrok provides"
+[dec_row_needs]
+other = "Needs at run time"
+[dec_needs_native]
+other = "Nothing"
+[dec_needs_rustpython]
+other = "The <code>decoders/</code> directory"
+[dec_needs_cpython]
+other = "Python 3.9+ with its shared library, and the <code>decoders/</code> directory"
+[dec_row_for]
+other = "Use it for"
+[dec_for_native]
+other = "Everyday decoding"
+[dec_for_rustpython]
+other = "Your own or newer Python decoders, with nothing else to install"
+[dec_for_cpython]
+other = "Python decoders on a machine with Python, when decode time matters"
+
+[dec_choose_h]
+other = "Which one runs"
+[dec_choose_p]
+other = "A native decoder always takes precedence over a Python decoder with the same id. A Python decoder is looked for in <code>OXROK_DECODERS_DIR</code>, <code>SIGROKDECODE_DIR</code>, <code>decoders</code> next to the executable, <code>~/.local/share/libsigrokdecode/decoders</code> and the system directories. With both Python hosts built in, CPython is used unless <code>OXROK_PYTHON=rustpython</code>. Native and Python decoders stack freely: <code>-P uart,midi</code> works whichever runs each layer."
+[dec_install_p]
+other = "The {link} has the build commands for each feature."
+[dec_install_link]
+other = "install page"
+
+[dec_checked_h]
+other = "How they are checked"
+[dec_checked_p]
+other = "Every native decoder has a parity test: it runs in the same process as the Python decoder it was ported from, on the same capture and configuration, and the whole output sequence (annotations, sample ranges, binary output, items passed to stacked decoders and metadata) must match. The sigrok-test corpus is a larger, opt-in run of the same comparison. <code>uart</code>, <code>i2c</code> and <code>spi</code> are also compared byte for byte with sigrok-cli. The two Python hosts print the same bytes over the sigrok-test runs. The {link} have the details."
+[dec_docs_link]
+other = "decoder docs"
+
+[dec_all_h]
+other = "All decoders"
+[dec_search_placeholder]
+other = "Search ids, names and descriptions"
+[dec_search_aria]
+other = "Search decoders"
+[dec_input_aria]
+other = "Filter by input"
+[dec_tag_aria]
+other = "Filter by tag"
+[dec_all_inputs]
+other = "All inputs"
+[dec_all_tags]
+other = "All tags"
+[dec_input_logic]
+other = "Logic"
+[dec_input_stacked]
+other = "Stacked"
+
+[col_decoder]
+other = "Decoder"
+[col_input]
+other = "Input"
+[col_tags]
+other = "Tags"
+
+[dec_none]
+other = "No decoders match those filters."
+[dec_count_shown]
+other = "{shown} of {total} decoders shown"
+[dec_count_total]
+other = "{total} decoders"
+
+[dec_status_parity]
+other = "Native"
+[dec_status_exception]
+other = "Native, exception"
+[dec_status_native]
+other = "Native, untested"
+[dec_status_python]
+other = "Python only"
+[dec_status_parity_meaning]
+other = "Native, with output identical to the Python original in the parity test"
+[dec_status_exception_meaning]
+other = "Native, with one documented difference from the Python original"
+[dec_status_native_meaning]
+other = "Native, not yet parity-tested"
+[dec_status_python_meaning]
+other = "In libsigrokdecode, not native yet; runs on RustPython or CPython"
+
+# --- Decoder page (layouts/decoders/single.html) ----------------------------
+
+[decpage_back]
+other = "← All decoders"
+[decpage_run]
+other = "Run it"
+[decpage_chain]
+other = "This decoder stacks on another, so the command runs the whole chain. Assign the channels to match your capture."
+[decpage_backends]
+other = "Backends"
+[decpage_native_yes]
+other = "Native: built into every oxrok binary, used by default."
+[decpage_python_ref]
+other = "Python: the original pd.py also runs on RustPython and CPython, but the native decoder takes precedence."
+[decpage_native_no]
+other = "Native: not yet."
+[decpage_python_only]
+other = "Python: runs from libsigrokdecode's <code>decoders/</code> on a build with the <code>rustpython</code> or <code>python</code> feature."
+[decpage_parity]
+other = "Checked by the parity test: on the same capture and configuration, the native and Python decoders produce the same output sequence."
+[decpage_exception]
+other = "Documented difference:"
+[decpage_about]
+other = "About"
+[decpage_channels]
+other = "Channels"
+[decpage_required]
+other = "required"
+[decpage_optional]
+other = "optional"
+[decpage_options]
+other = "Options"
+[decpage_col_id]
+other = "Id"
+[decpage_col_name]
+other = "Name"
+[decpage_col_desc]
+other = "Description"
+[decpage_col_default]
+other = "Default"
+[decpage_col_values]
+other = "Values"
+[decpage_stacking]
+other = "Stacking"
+[decpage_input]
+other = "Input"
+[decpage_output]
+other = "Output"
+[decpage_stacked_by]
+other = "Decoders that stack on it"
+[decpage_annotations]
+other = "Annotations"
+[decpage_annotations_p]
+other = "Select rows or classes with -A {{ .id }}=row or -A {{ .id }}=class:class."
+[decpage_col_row]
+other = "Row"
+[decpage_col_classes]
+other = "Classes"
+[decpage_binary]
+other = "Binary output"
+[decpage_binary_p]
+other = "Write a class to stdout with -B {{ .id }}=class."
+[decpage_checklist]
+other = "native decoder checklist"
+[decpage_not_found]
+other = "Decoder not found"
+
+# --- Decoder examples (data/decoders.json "examples") -----------------------
+
+[dec_examples_h]
+other = "Examples"
+[dec_examples_p]
+other = "Real runs on captures from oxrok's test fixtures; the output is what this release prints, regenerated on every build. Channel names come from the capture: map a decoder channel to one with channel=NAME."
+[dec_ex_uart_h]
+other = "Decode one bus"
+[dec_ex_uart_p]
+other = "Options follow the decoder id, separated by colons. <code>-A</code> keeps one annotation class, here the received bytes, shown as ASCII."
+[dec_ex_can_h]
+other = "Set the bit rate, pick a row"
+[dec_ex_can_p]
+other = "A CAN bus at 125 kbit/s. <code>-A can=fields</code> selects a whole annotation row instead of single classes."
+[dec_ex_midi_h]
+other = "Stack decoders"
+[dec_ex_midi_p]
+other = "A comma stacks one decoder on the one before it: <code>uart</code> turns the line into bytes, <code>midi</code> turns the bytes into notes. Only the top layer is shown."
+[dec_ex_eeprom_h]
+other = "Show several layers"
+[dec_ex_eeprom_p]
+other = "<code>-A</code> takes a list, one entry per decoder. The layers interleave in the order they were decoded, as with sigrok-cli."
+[dec_ex_binary_h]
+other = "Binary output"
+[dec_ex_binary_p]
+other = "<code>-B</code> writes a binary class to stdout instead of annotations, here the bytes written on the I²C bus."
+[dec_ex_meta_h]
+other = "Metadata"
+[dec_ex_meta_p]
+other = "<code>-M</code> shows the values a decoder measures, here the I²C bit rate of each transfer."

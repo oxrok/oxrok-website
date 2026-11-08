@@ -29,6 +29,7 @@
     {{ $p := .RelPermalink }}
     <nav aria-label="{{ T "aria_site" }}">
       <a href="{{ "devices/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "devices/") }} aria-current="page"{{ end }}>{{ T "nav_devices" }}</a>
+      <a href="{{ "decoders/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "decoders/") }} aria-current="page"{{ end }}>{{ T "nav_decoders" }}</a>
       <a href="{{ "start/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "start/") }} aria-current="page"{{ end }}>{{ T "nav_start" }}</a>
       <a href="{{ "testing/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "testing/") }} aria-current="page"{{ end }}>{{ T "nav_testing" }}</a>
       <a href="{{ "docs/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "docs/") }} aria-current="page"{{ end }}>{{ T "nav_docs" }}</a>

@@ -1,0 +1,136 @@
+{{ define "main" }}
+{{ $decs := .Site.Data.decoders.decoders }}
+{{ $d := dict }}
+{{ range $decs }}
+  {{ if eq .id $.Params.key }}{{ $d = . }}{{ end }}
+{{ end }}
+{{ $cls := dict "parity" "hw" "exception" "standin" "native" "emu" "python" "replay" }}
+  {{ if $d }}
+  <p class="back"><a href="{{ "decoders/" | relLangURL }}">{{ T "decpage_back" }}</a></p>
+  <div class="dhead">
+    <h1>{{ $d.name }}</h1>
+    <span class="badge {{ index $cls $d.status }}">{{ T (printf "dec_status_%s" $d.status) }}</span>
+  </div>
+  <p class="dmeta">{{ if $d.longname }}{{ $d.longname }} · {{ end }}<code>{{ $d.id }}</code>{{ if $d.license }} · {{ $d.license }}{{ end }}</p>
+  {{ if $d.tags }}
+  <p class="modelrow">{{ range $d.tags }}<a class="chip" href="{{ "decoders/" | relLangURL }}?tag={{ . | urlquery }}#all">{{ . }}</a>{{ end }}</p>
+  {{ end }}
+  {{ if $d.desc }}<p>{{ $d.desc }}</p>{{ end }}
+
+  <h2>{{ T "decpage_run" }}</h2>
+  <div class="connbox">
+    <button class="copy" type="button">{{ T "copy" }}</button>
+    <p class="conn">{{ $d.example }}</p>
+  </div>
+  {{ if gt (len $d.chain) 1 }}
+  <p class="dmeta">{{ T "decpage_chain" }}</p>
+  {{ end }}
+
+  {{ range .Site.Data.decoders.examples }}
+  {{ if in .chain $d.id }}
+  <h3>{{ T (printf "dec_ex_%s_h" .key) }}</h3>
+  {{ partial "decoder-example.html" (dict "ex" . "ctx" $) }}
+  {{ end }}
+  {{ end }}
+
+  <h2>{{ T "decpage_backends" }}</h2>
+  <ul>
+    {{ if $d.native }}
+    <li>{{ T "decpage_native_yes" }}</li>
+    <li>{{ T "decpage_python_ref" }}</li>
+    {{ else }}
+    <li>{{ T "decpage_native_no" }}</li>
+    <li>{{ T "decpage_python_only" | safeHTML }}</li>
+    {{ end }}
+  </ul>
+  {{ if $d.parity }}
+  <p>{{ T "decpage_parity" }}</p>
+  {{ end }}
+  {{ if $d.exception }}
+  <p><strong>{{ T "decpage_exception" }}</strong> {{ $d.exception | markdownify }}</p>
+  {{ end }}
+
+  {{ if $d.doc }}
+  <h2>{{ T "decpage_about" }}</h2>
+  {{ range split $d.doc "\n\n" }}<p>{{ . }}</p>
+  {{ end }}
+  {{ end }}
+
+  {{ if or $d.channels $d.optional_channels }}
+  <h2>{{ T "decpage_channels" }}</h2>
+  <table>
+    <tr><th>{{ T "decpage_col_id" }}</th><th>{{ T "decpage_col_name" }}</th><th>{{ T "decpage_col_desc" }}</th><th></th></tr>
+    {{ range $d.channels }}
+    <tr><td><code>{{ .id }}</code></td><td>{{ .name }}</td><td>{{ .desc }}</td><td>{{ T "decpage_required" }}</td></tr>
+    {{ end }}
+    {{ range $d.optional_channels }}
+    <tr><td><code>{{ .id }}</code></td><td>{{ .name }}</td><td>{{ .desc }}</td><td class="dmeta">{{ T "decpage_optional" }}</td></tr>
+    {{ end }}
+  </table>
+  {{ end }}
+
+  {{ if $d.options }}
+  <h2>{{ T "decpage_options" }}</h2>
+  <table>
+    <tr><th>{{ T "decpage_col_id" }}</th><th>{{ T "decpage_col_desc" }}</th><th>{{ T "decpage_col_default" }}</th><th>{{ T "decpage_col_values" }}</th></tr>
+    {{ range $d.options }}
+    <tr><td><code>{{ .id }}</code></td><td>{{ .desc }}</td><td>{{ with .default }}<code>{{ . }}</code>{{ end }}</td>
+      <td>{{ range $i, $v := .values }}{{ if $i }}, {{ end }}<code>{{ $v }}</code>{{ end }}</td></tr>
+    {{ end }}
+  </table>
+  {{ end }}
+
+  <h2>{{ T "decpage_stacking" }}</h2>
+  <dl class="kv">
+    <dt>{{ T "decpage_input" }}</dt>
+    <dd>{{ if eq $d.kind "logic" }}<code>logic</code>{{ else }}
+      {{ $in := $d.input }}{{ $found := false }}
+      {{ range $decs }}{{ if and (not $found) (in .outputs $in) }}{{ $found = true }}<a href="{{ printf "decoders/%s/" .id | relLangURL }}"><code>{{ .id }}</code></a>{{ end }}{{ end }}
+      {{ if not $found }}<code>{{ $in }}</code>{{ end }}
+    {{ end }}</dd>
+    {{ if $d.outputs }}
+    <dt>{{ T "decpage_output" }}</dt>
+    <dd>{{ range $i, $o := $d.outputs }}{{ if $i }}, {{ end }}<code>{{ $o }}</code>{{ end }}</dd>
+    {{ end }}
+    {{ if $d.stacked_by }}
+    <dt>{{ T "decpage_stacked_by" }}</dt>
+    <dd>{{ range $i, $s := $d.stacked_by }}{{ if $i }}, {{ end }}<a href="{{ printf "decoders/%s/" $s | relLangURL }}"><code>{{ $s }}</code></a>{{ end }}</dd>
+    {{ end }}
+  </dl>
+
+  {{ if or $d.rows $d.annotations }}
+  <h2>{{ T "decpage_annotations" }}</h2>
+  <p class="dmeta">{{ T "decpage_annotations_p" (dict "id" $d.id) }}</p>
+  {{ $ann := dict }}
+  {{ range $d.annotations }}{{ $ann = merge $ann (dict .id .desc) }}{{ end }}
+  {{ if $d.rows }}
+  <table>
+    <tr><th>{{ T "decpage_col_row" }}</th><th>{{ T "decpage_col_classes" }}</th></tr>
+    {{ range $d.rows }}
+    <tr><td><code>{{ .id }}</code><br><span class="dmeta">{{ .desc }}</span></td>
+      <td>{{ range $i, $c := .classes }}{{ if $i }}, {{ end }}<code title="{{ index $ann $c }}">{{ $c }}</code>{{ end }}</td></tr>
+    {{ end }}
+  </table>
+  {{ else }}
+  <p>{{ range $i, $a := $d.annotations }}{{ if $i }}, {{ end }}<code title="{{ $a.desc }}">{{ $a.id }}</code>{{ end }}</p>
+  {{ end }}
+  {{ end }}
+
+  {{ if $d.binary }}
+  <h2>{{ T "decpage_binary" }}</h2>
+  <p class="dmeta">{{ T "decpage_binary_p" (dict "id" $d.id) }}</p>
+  <ul>
+    {{ range $d.binary }}<li><code>{{ .id }}</code> — {{ .desc }}</li>
+    {{ end }}
+  </ul>
+  {{ end }}
+
+  <p class="dmeta">
+    {{ if $d.native }}<a href="{{ printf "%s/blob/main/src/decoders/%s.rs" .Site.Params.repo $d.id }}">{{ T "dpage_source" }}</a> · {{ end }}
+    <a href="{{ .Site.Params.repo }}/blob/main/docs/NATIVE_DECODERS.md">{{ T "decpage_checklist" }}</a>
+    · <a href="{{ "docs/decoders/" | relURL }}">{{ T "dec_docs_link" }}</a>
+  </p>
+  {{ else }}
+  <h1>{{ T "decpage_not_found" }}</h1>
+  {{ end }}
+{{ end }}

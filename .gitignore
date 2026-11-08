@@ -2,6 +2,7 @@ public/
 resources/_gen/
 .hugo_build.lock
 data/drivers.json
+data/decoders.json
 data/demo.txt
 data/summary.json
 pagefind/
