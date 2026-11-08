@@ -1,0 +1,293 @@
+# Spanish. Same keys as i18n/en.toml.
+
+[nav_devices]
+other = "Dispositivos"
+[nav_start]
+other = "Empezar"
+[nav_testing]
+other = "Pruebas"
+[nav_docs]
+other = "Documentación"
+[nav_blog]
+other = "Blog"
+[nav_github]
+other = "GitHub"
+
+[footer_this_site]
+other = "este sitio"
+[footer_device_docs]
+other = "documentación de dispositivos"
+[footer_roadmap]
+other = "hoja de ruta"
+[footer_ui]
+other = "UI"
+[footer_rss]
+other = "RSS"
+[footer_llm_disclosure]
+other = "escrito por un LLM, dirigido por una persona"
+
+[aria_site]
+other = "Sitio"
+[aria_language]
+other = "Idioma"
+
+[copy]
+other = "copiar"
+[copied]
+other = "copiado"
+
+[home_h1]
+other = "La pila de sigrok, en Rust"
+[home_lede]
+other = "Una biblioteca, drivers y una herramienta de línea de comandos para analizadores lógicos, osciloscopios y multímetros. Se compila solo con <code>cargo</code>, no enlaza ninguna biblioteca C de sigrok y acepta las opciones, formatos de archivo, ids de driver e ids de decodificador de sigrok-cli."
+[home_tag]
+other = "Experimental. La mayoría de los drivers nunca se han ejecutado en hardware real."
+[home_cta_start]
+other = "Empezar"
+[home_cta_devices]
+other = "Encuentra tu dispositivo"
+[home_cta_ui]
+other = "Incluye una interfaz"
+
+[home_find_h]
+other = "Encuentra tu dispositivo"
+
+[home_col1_h]
+other = "Misma interfaz que sigrok"
+[home_col1_p]
+other = "Las opciones, formatos de archivo e ids de driver y decodificador de sigrok-cli. Los decodificadores Python de libsigrokdecode se ejecutan sin cambios, en un intérprete RustPython integrado o en el CPython del sistema."
+[home_col2_h]
+other = "Un solo binario"
+[home_col2_p]
+other = "Sin bibliotecas C. Compilaciones estáticas para Linux, macOS y Windows, con los decodificadores junto a él."
+[home_col3_h]
+other = "Probado contra el C"
+[home_col3_p]
+other = "Cada driver se compara con libsigrok sobre un modelo de dispositivo que el kernel no puede distinguir del hardware. {link}."
+[home_col3_link]
+other = "Cómo"
+
+[home_ui_h]
+other = "La interfaz"
+[home_ui_alt]
+other = "La vista de captura de oxrok-ui: formas de onda y protocolos decodificados"
+[home_ui_link]
+other = "oxrok-ui"
+[home_ui_p]
+other = "{link} es la interfaz de captura, visualización, medición y decodificación de oxrok, escrita en Rust sobre egui. Funciona con los dispositivos simulados integrados, así que puedes probarla sin hardware."
+
+[home_stat_drivers]
+other = "de los {{ . }} drivers de libsigrok"
+[home_stat_cases]
+other = "casos del emulador"
+[home_stat_hardware]
+other = "en hardware real"
+[numbers]
+other = "{{ .ported }} de {{ .total }} drivers portados, {{ .cases }} casos del emulador, {{ .hardware }} en hardware real"
+[home_all_drivers]
+other = "todos los drivers →"
+
+[home_search_placeholder]
+other = "Busca dispositivos y modelos, p. ej. UT61E"
+[home_search_aria]
+other = "Buscar dispositivos"
+[home_search_try]
+other = "Prueba:"
+
+[home_written_h]
+other = "Cómo se escribió"
+[home_written_p1]
+other = "oxrok es una traducción del código C y Python de sigrok a Rust, realizada por un modelo de lenguaje de gran tamaño, con una persona dirigiendo el trabajo: eligiendo qué portar, revisando la estructura y el manejo de protocolos, conectando el hardware de banco y ejecutando las comparaciones. Lee el código con eso en mente y consulta la {link} para ver qué tipo de evidencia ha tenido cada uno."
+[home_written_link]
+other = "tabla de drivers"
+[home_written_p2]
+other = "para ver qué tipo de evidencia ha tenido cada uno."
+
+[home_tested_h]
+other = "Cómo se prueba"
+[home_tested_p]
+other = "No tenemos el hardware de la mayoría de estos drivers, así que hacemos que el kernel crea que sí: cada uno es un modelo en Rust, conectado por USB/IP (<code>vhci-hcd</code>) para que sea un dispositivo USB real a ojos del kernel. El sigrok-cli real y oxrok se ejecutan sin modificaciones contra el mismo dispositivo, registrando y comparando cada transacción. Los modelos están hechos para comportarse mal: bloqueos, desconexiones, respuestas tardías, tramas defectuosas. {link}."
+[home_tested_link]
+other = "El método completo, y sus límites"
+
+[home_vusb_p1]
+other = "Los modelos se ejecutan sobre {link}, una biblioteca USB virtual que pone en el bus un dispositivo que es solo código Rust."
+[home_vusb_link]
+other = "vusb"
+[home_vusb_p2]
+other = "una biblioteca USB virtual que pone en el bus un dispositivo que es solo código Rust."
+
+[emu_aria]
+other = "oxrok-emu, un modelo de dispositivo en Rust, se conecta al kernel de Linux mediante USB/IP; tanto sigrok-cli como oxrok se ejecutan contra él a través del bus USB, y se comparan sus transacciones."
+[emu_oxrokemu]
+other = "oxrok-emu"
+[emu_model]
+other = "modelo de dispositivo en Rust"
+[emu_pedantic]
+other = "comprobaciones rigurosas"
+[emu_fault]
+other = "inyección de fallos"
+[emu_tlog]
+other = "registro de transacciones"
+[emu_kernel]
+other = "kernel de Linux"
+[emu_vhci]
+other = "vhci-hcd"
+[emu_vhost]
+other = "(controlador de host virtual)"
+[emu_usbcore]
+other = "usbcore · usbhid"
+[emu_sigrok]
+other = "sigrok-cli"
+[emu_oracle]
+other = "el oráculo, a través de libusb"
+[emu_oxrok]
+other = "oxrok"
+[emu_port]
+other = "el port, a través de nusb"
+[emu_usbip]
+other = "USB/IP sobre TCP"
+[emu_usbbus]
+other = "bus USB"
+
+[devices_intro]
+other = "¿Hasta dónde puedo confiar en esto? El <strong>estado</strong> de un driver dice cómo se comprobó, de más fuerte a más débil. La mayoría nunca ha visto su dispositivo; la {link} explica qué demuestra y qué no cada estado."
+[devices_intro_link]
+other = "página de pruebas"
+[devices_intro_p2]
+other = "explica qué demuestra y qué no cada estado."
+
+[devices_search_placeholder]
+other = "Buscar nombres y modelos"
+[devices_search_aria]
+other = "Buscar dispositivos"
+[devices_kind_aria]
+other = "Filtrar por tipo"
+[devices_status_aria]
+other = "Filtrar por estado"
+[devices_conn_aria]
+other = "Filtrar por conexión"
+[devices_all_kinds]
+other = "Todos los tipos"
+[devices_all_statuses]
+other = "Todos los estados"
+[devices_all_conns]
+other = "Todas las conexiones"
+[devices_clear]
+other = "limpiar"
+
+[col_device]
+other = "Dispositivo"
+[col_kind]
+other = "Tipo"
+[col_connection]
+other = "Conexión"
+[col_status]
+other = "Estado"
+[col_cases]
+other = "Casos"
+
+[devices_none]
+other = "Ningún driver coincide con esos filtros."
+
+[status_meaning_h]
+other = "Significado"
+
+[status_hardware]
+other = "Hardware"
+[status_stand-in]
+other = "Sustituto"
+[status_emulated]
+other = "Emulado"
+[status_software]
+other = "Software"
+[status_replay]
+other = "Reproducción"
+[status_not-ported]
+other = "No portado"
+
+[status_hardware_meaning]
+other = "Ejecutado en el dispositivo real, por nosotros"
+[status_standin_meaning]
+other = "Ejecutado sobre un bus real con un microcontrolador que actúa como el dispositivo"
+[status_emulated_meaning]
+other = "Comparado con libsigrok en un dispositivo emulado; nunca en hardware"
+[status_software_meaning]
+other = "Un driver de software, comprobado por los casos de software del script diferencial"
+[status_replay_meaning]
+other = "Comprobado solo contra grabaciones"
+[status_notported_meaning]
+other = "En libsigrok, aún no aquí"
+
+[kind_logic-analyzer]
+other = "Analizador lógico"
+[kind_scope]
+other = "Osciloscopio"
+[kind_meter]
+other = "Multímetro"
+[kind_supply]
+other = "Fuente"
+[kind_load]
+other = "Carga"
+[kind_generator]
+other = "Generador"
+[kind_other]
+other = "Otro"
+
+[conn_usb]
+other = "USB"
+[conn_serial]
+other = "Serie"
+[conn_tcp]
+other = "TCP"
+[conn_hid]
+other = "HID"
+[conn_none]
+other = "Ninguna"
+
+[devices_have_one]
+other = "¿Tienes una? Cuéntanos"
+[devices_have_one_p]
+other = "un informe de una unidad real vale más que otro caso del emulador."
+
+[devices_count_shown]
+other = "{shown} de {total} drivers mostrados"
+[devices_count_total]
+other = "{total} drivers"
+
+[dpage_back]
+other = "← Todos los drivers"
+[dpage_covers]
+other = "Cubre"
+[dpage_not_ported]
+other = "Aún no portado."
+[dpage_connect]
+other = "Conectar"
+[dpage_no_id]
+other = "Aún no hay id de driver."
+[dpage_capabilities]
+other = "Capacidades"
+[dpage_checked]
+other = "Cómo se comprobó"
+[dpage_behaviour]
+other = "Comportamiento a conocer"
+[dpage_limits]
+other = "Límites conocidos"
+[dpage_cases]
+other = "casos del emulador"
+[dpage_cases_coverage]
+other = ", cubriendo el {{ . }}% de las líneas del driver en C. "
+[dpage_cases_note]
+other = "La {link} explica qué demuestra y qué no esa cifra."
+[dpage_cases_link]
+other = "página de pruebas"
+[dpage_cases_note2]
+other = "explica qué demuestra y qué no esa cifra."
+[dpage_source]
+other = "código"
+[dpage_device_docs]
+other = "documentación del dispositivo"
+[dpage_report]
+other = "informar de un resultado"
+[dpage_not_found]
+other = "Driver no encontrado"

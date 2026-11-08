@@ -1,56 +1,54 @@
 {{ define "main" }}
 {{ $data := .Site.Data }}
 {{ $drivers := $data.drivers.drivers }}
-  <h1>Devices</h1>
-  <p>How far can I trust this? A driver's <strong>status</strong> says how it was
-  checked, from strongest to weakest. Most have never met their device; the
-  <a href="{{ "testing/" | relURL }}">testing page</a> says what each status
-  does and does not prove.</p>
+  <h1>{{ .Title }}</h1>
+  {{ $intro := printf "<a href=\"%s\">%s</a>" (relLangURL "testing/") (T "devices_intro_link") }}
+  <p>{{ replace (T "devices_intro") "{link}" $intro | safeHTML }}</p>
 
-  <form class="filters" action="{{ "devices/" | relURL }}" method="get">
-    <input type="search" id="q" name="q" placeholder="Search names and models" aria-label="Search devices">
-    <select id="kind" name="kind" aria-label="Filter by kind">
-      <option value="">All kinds</option>
-      <option value="logic-analyzer">Logic analyzer</option>
-      <option value="scope">Scope</option>
-      <option value="meter">Meter</option>
-      <option value="supply">Supply</option>
-      <option value="load">Load</option>
-      <option value="generator">Generator</option>
-      <option value="other">Other</option>
+  <form class="filters" action="{{ "devices/" | relLangURL }}" method="get">
+    <input type="search" id="q" name="q" placeholder="{{ T "devices_search_placeholder" }}" aria-label="{{ T "devices_search_aria" }}">
+    <select id="kind" name="kind" aria-label="{{ T "devices_kind_aria" }}">
+      <option value="">{{ T "devices_all_kinds" }}</option>
+      <option value="logic-analyzer">{{ T "kind_logic-analyzer" }}</option>
+      <option value="scope">{{ T "kind_scope" }}</option>
+      <option value="meter">{{ T "kind_meter" }}</option>
+      <option value="supply">{{ T "kind_supply" }}</option>
+      <option value="load">{{ T "kind_load" }}</option>
+      <option value="generator">{{ T "kind_generator" }}</option>
+      <option value="other">{{ T "kind_other" }}</option>
     </select>
-    <select id="status" name="status" aria-label="Filter by status">
-      <option value="">All statuses</option>
-      <option value="hardware">Hardware</option>
-      <option value="stand-in">Stand-in</option>
-      <option value="emulated">Emulated</option>
-      <option value="software">Software</option>
-      <option value="replay">Replay</option>
-      <option value="not-ported">Not ported</option>
+    <select id="status" name="status" aria-label="{{ T "devices_status_aria" }}">
+      <option value="">{{ T "devices_all_statuses" }}</option>
+      <option value="hardware">{{ T "status_hardware" }}</option>
+      <option value="stand-in">{{ T "status_stand-in" }}</option>
+      <option value="emulated">{{ T "status_emulated" }}</option>
+      <option value="software">{{ T "status_software" }}</option>
+      <option value="replay">{{ T "status_replay" }}</option>
+      <option value="not-ported">{{ T "status_not-ported" }}</option>
     </select>
-    <select id="conn" name="conn" aria-label="Filter by connection">
-      <option value="">All connections</option>
-      <option value="usb">USB</option>
-      <option value="serial">Serial</option>
-      <option value="tcp">TCP</option>
-      <option value="hid">HID</option>
+    <select id="conn" name="conn" aria-label="{{ T "devices_conn_aria" }}">
+      <option value="">{{ T "devices_all_conns" }}</option>
+      <option value="usb">{{ T "conn_usb" }}</option>
+      <option value="serial">{{ T "conn_serial" }}</option>
+      <option value="tcp">{{ T "conn_tcp" }}</option>
+      <option value="hid">{{ T "conn_hid" }}</option>
     </select>
-    <button type="button" class="clear" id="clear" style="display:none">clear</button>
+    <button type="button" class="clear" id="clear" style="display:none">{{ T "devices_clear" }}</button>
   </form>
   <p class="count" id="count" aria-live="polite"></p>
 
   <table class="devtable">
     <thead>
       <tr>
-        <th>Device</th>
-        <th>Kind</th>
-        <th>Connection</th>
-        <th>Status</th>
-        <th class="num">Cases</th>
+        <th>{{ T "col_device" }}</th>
+        <th>{{ T "col_kind" }}</th>
+        <th>{{ T "col_connection" }}</th>
+        <th>{{ T "col_status" }}</th>
+        <th class="num">{{ T "col_cases" }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr id="none" style="display:none"><td colspan="5">No drivers match those filters.</td></tr>
+      <tr id="none" style="display:none"><td colspan="5">{{ T "devices_none" }}</td></tr>
       {{ range $drivers }}
       {{ $best := "not-ported" }}
       {{ $bestp := 0 }}
@@ -64,15 +62,14 @@
         {{ if gt $p $bestp }}{{ $bestp = $p }}{{ $best = $s }}{{ end }}
       {{ end }}
       {{ $class := index (dict "hardware" "hw" "stand-in" "standin" "emulated" "emu" "software" "software" "replay" "replay" "not-ported" "none") $best }}
-      {{ $label := index (dict "hardware" "Hardware" "stand-in" "Stand-in" "emulated" "Emulated" "software" "Software" "replay" "Replay" "not-ported" "Not ported") $best }}
       <tr data-kind="{{ .kind }}" data-status="{{ $best }}" data-conn="{{ .connection }}"
           data-search="{{ .name }} {{ range .models }}{{ . }} {{ end }}{{ range .ids }}{{ . }} {{ end }}">
-        <td data-label="Device"><a href="{{ printf "devices/%s/" .key | relURL }}">{{ .name }}</a><br>
+        <td data-label="{{ T "col_device" }}"><a href="{{ printf "devices/%s/" .key | relLangURL }}">{{ .name }}</a><br>
           <span class="id">{{ index .ids 0 }}</span></td>
-        <td data-label="Kind">{{ .kind }}</td>
-        <td data-label="Connection">{{ .connection }}</td>
-        <td data-label="Status"><span class="badge {{ $class }}">{{ $label }}</span></td>
-        <td data-label="Cases" class="num">{{ .cases }}</td>
+        <td data-label="{{ T "col_kind" }}">{{ T (printf "kind_%s" .kind) }}</td>
+        <td data-label="{{ T "col_connection" }}">{{ T (printf "conn_%s" .connection) }}</td>
+        <td data-label="{{ T "col_status" }}"><span class="badge {{ $class }}">{{ T (printf "status_%s" $best) }}</span></td>
+        <td data-label="{{ T "col_cases" }}" class="num">{{ .cases }}</td>
       </tr>
       {{ end }}
     </tbody>
@@ -80,19 +77,19 @@
 
   <table>
     <tr>
-      <th>Status</th>
-      <th>Meaning</th>
+      <th>{{ T "col_status" }}</th>
+      <th>{{ T "status_meaning_h" }}</th>
     </tr>
-    <tr><td><span class="badge hw">Hardware</span></td><td>Run on the real device, by us</td></tr>
-    <tr><td><span class="badge standin">Stand-in</span></td><td>Run over a real bus on a microcontroller acting as the device</td></tr>
-    <tr><td><span class="badge emu">Emulated</span></td><td>Compared with libsigrok on an emulated device; never on hardware</td></tr>
-    <tr><td><span class="badge software">Software</span></td><td>A software driver, checked by the software cases of the differential script</td></tr>
-    <tr><td><span class="badge replay">Replay</span></td><td>Checked only against recordings</td></tr>
-    <tr><td><span class="badge none">Not ported</span></td><td>In libsigrok, not here yet</td></tr>
+    <tr><td><span class="badge hw">{{ T "status_hardware" }}</span></td><td>{{ T "status_hardware_meaning" }}</td></tr>
+    <tr><td><span class="badge standin">{{ T "status_stand-in" }}</span></td><td>{{ T "status_standin_meaning" }}</td></tr>
+    <tr><td><span class="badge emu">{{ T "status_emulated" }}</span></td><td>{{ T "status_emulated_meaning" }}</td></tr>
+    <tr><td><span class="badge software">{{ T "status_software" }}</span></td><td>{{ T "status_software_meaning" }}</td></tr>
+    <tr><td><span class="badge replay">{{ T "status_replay" }}</span></td><td>{{ T "status_replay_meaning" }}</td></tr>
+    <tr><td><span class="badge none">{{ T "status_not-ported" }}</span></td><td>{{ T "status_notported_meaning" }}</td></tr>
   </table>
 
-  <p><a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">Have one? Tell us</a> —
-  a report from a real unit is worth more than another emulator case.</p>
+  <p><a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">{{ T "devices_have_one" }}</a> —
+  {{ T "devices_have_one_p" }}</p>
 
   <script>
     (function () {
@@ -104,6 +101,9 @@
       var count = document.getElementById("count");
       var none = document.getElementById("none");
       var rows = Array.from(document.querySelectorAll(".devtable tbody tr[data-kind]"));
+
+      var shownTpl = {{ T "devices_count_shown" | jsonify }};
+      var totalTpl = {{ T "devices_count_total" | jsonify }};
 
       // A link here with ?q=... (the home page search) pre-fills the filter.
       var params = new URLSearchParams(location.search);
@@ -128,8 +128,8 @@
         var filtered = q.value || kind.value || status.value || conn.value;
         clear.style.display = filtered ? "" : "none";
         count.textContent = filtered
-          ? shown + " of " + rows.length + " drivers shown"
-          : rows.length + " drivers";
+          ? shownTpl.replace("{shown}", shown).replace("{total}", rows.length)
+          : totalTpl.replace("{total}", rows.length);
       }
       [q, kind, status, conn].forEach(function (el) {
         el.addEventListener("input", apply);

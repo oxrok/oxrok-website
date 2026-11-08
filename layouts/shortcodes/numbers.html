@@ -1,2 +1,2 @@
 {{ $m := .Site.Data.drivers.meta }}
-{{ $m.ported }} of {{ $m.libsigrok_total }} drivers ported, {{ $m.cases_total | int }} emulator cases, {{ $m.hardware }} on real hardware
+{{ T "numbers" (dict "ported" $m.ported "total" $m.libsigrok_total "cases" ($m.cases_total | int) "hardware" $m.hardware) }}

@@ -6,42 +6,42 @@
   {{ if eq .key $.Params.key }}{{ $d = . }}{{ end }}
 {{ end }}
   {{ if $d }}
-  <p class="back"><a href="{{ "devices/" | relURL }}">← All drivers</a></p>
+  <p class="back"><a href="{{ "devices/" | relLangURL }}">{{ T "dpage_back" }}</a></p>
   <div class="dhead">
     <h1>{{ $d.name }}</h1>
     {{ range $s := $d.status }}
-    <span class="badge {{ index (dict "hardware" "hw" "stand-in" "standin" "emulated" "emu" "software" "software" "replay" "replay" "not-ported" "none") $s }}">{{ index (dict "hardware" "Hardware" "stand-in" "Stand-in" "emulated" "Emulated" "software" "Software" "replay" "Replay" "not-ported" "Not ported") $s }}</span>
+    <span class="badge {{ index (dict "hardware" "hw" "stand-in" "standin" "emulated" "emu" "software" "software" "replay" "replay" "not-ported" "none") $s }}">{{ T (printf "status_%s" $s) }}</span>
     {{ end }}
   </div>
-  <p class="dmeta">{{ if $d.vendor }}{{ $d.vendor }} · {{ end }}{{ $d.kind }} · {{ $d.connection }}</p>
+  <p class="dmeta">{{ if $d.vendor }}{{ $d.vendor }} · {{ end }}{{ T (printf "kind_%s" $d.kind) }} · {{ T (printf "conn_%s" $d.connection) }}</p>
 
   {{ if $d.models }}
-  <p class="modelrow"><span class="mlabel">Covers</span>
+  <p class="modelrow"><span class="mlabel">{{ T "dpage_covers" }}</span>
     {{ range $d.models }}<span class="chip">{{ . }}</span>{{ end }}
   </p>
   {{ end }}
 
   {{ if eq (index $d.status 0) "not-ported" }}
-  <p><strong>Not ported yet.</strong> {{ $d.reason }}</p>
+  <p><strong>{{ T "dpage_not_ported" }}</strong> {{ $d.reason }}</p>
   {{ else }}
 
-  <h2>Connect</h2>
+  <h2>{{ T "dpage_connect" }}</h2>
   {{ if $d.ids }}
   <div class="connbox">
-    <button class="copy" type="button">copy</button>
+    <button class="copy" type="button">{{ T "copy" }}</button>
     <p class="conn">oxrok -d {{ index $d.ids 0 }}</p>
   </div>
   {{ else }}
-  <p>No driver id yet.</p>
+  <p>{{ T "dpage_no_id" }}</p>
   {{ end }}
 
   {{ if $d.show }}
-  <h2>Capabilities</h2>
+  <h2>{{ T "dpage_capabilities" }}</h2>
   <div class="term"><pre>{{ $d.show }}</pre></div>
   {{ end }}
 
   {{ if $d.evidence }}
-  <h2>How it was checked</h2>
+  <h2>{{ T "dpage_checked" }}</h2>
   <ul>
     {{ range $d.evidence }}<li>{{ . }}</li>
     {{ end }}
@@ -49,13 +49,12 @@
   {{ end }}
 
   {{ if $d.cases }}
-  <p>{{ $d.cases }} emulator cases{{ if $d.coverage }}, covering {{ (index $d.coverage 0).pct }}% of the C driver's lines{{ end }}. The
-  <a href="{{ "testing/" | relURL }}">testing page</a> says what that figure does and
-  does not prove.</p>
+  {{ $testinglink := printf "<a href=\"%s\">%s</a>" (relLangURL "testing/") (T "dpage_cases_link") }}
+  <p>{{ $d.cases }} {{ T "dpage_cases" }}{{ if $d.coverage }}{{ T "dpage_cases_coverage" (index $d.coverage 0).pct }}{{ end }} {{ replace (T "dpage_cases_note") "{link}" $testinglink | safeHTML }}</p>
   {{ end }}
 
   {{ if $d.behaviour }}
-  <h2>Behaviour to know</h2>
+  <h2>{{ T "dpage_behaviour" }}</h2>
   <ul>
     {{ range $d.behaviour }}<li>{{ . }}</li>
     {{ end }}
@@ -63,7 +62,7 @@
   {{ end }}
 
   {{ if $d.limits }}
-  <h2>Known limits</h2>
+  <h2>{{ T "dpage_limits" }}</h2>
   <ul>
     {{ range $d.limits }}<li>{{ . }}</li>
     {{ end }}
@@ -73,11 +72,11 @@
   {{ end }}
 
   <p class="dmeta">
-    <a href="{{ printf "%s/tree/main/src/drivers/%s" .Site.Params.repo (replace .Params.key "-" "_") }}">source</a>
-    · <a href="{{ .Site.Params.repo }}/blob/main/docs/DEVICES.md">device docs</a>
-    · <a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">report a result</a>
+    <a href="{{ printf "%s/tree/main/src/drivers/%s" .Site.Params.repo (replace .Params.key "-" "_") }}">{{ T "dpage_source" }}</a>
+    · <a href="{{ .Site.Params.repo }}/blob/main/docs/DEVICES.md">{{ T "dpage_device_docs" }}</a>
+    · <a href="{{ .Site.Params.repo }}/issues/new?template=hardware-report.yml">{{ T "dpage_report" }}</a>
   </p>
   {{ else }}
-  <h1>Driver not found</h1>
+  <h1>{{ T "dpage_not_found" }}</h1>
   {{ end }}
 {{ end }}

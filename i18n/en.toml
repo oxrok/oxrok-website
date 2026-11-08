@@ -1,0 +1,305 @@
+# English UI strings — the source of truth for keys. Every other language's
+# catalog (i18n/zh.toml, i18n/es.toml, …) must carry the same keys.
+# See docs/internationalization.md and docs/translation-workflow.md.
+
+# --- Nav and footer -------------------------------------------------------
+
+[nav_devices]
+other = "Devices"
+[nav_start]
+other = "Get started"
+[nav_testing]
+other = "Testing"
+[nav_docs]
+other = "Docs"
+[nav_blog]
+other = "Blog"
+[nav_github]
+other = "GitHub"
+
+[footer_this_site]
+other = "this site"
+[footer_device_docs]
+other = "device docs"
+[footer_roadmap]
+other = "roadmap"
+[footer_ui]
+other = "UI"
+[footer_rss]
+other = "RSS"
+[footer_llm_disclosure]
+other = "written by an LLM, directed by a person"
+
+[aria_site]
+other = "Site"
+[aria_language]
+other = "Language"
+
+[copy]
+other = "copy"
+[copied]
+other = "copied"
+
+# --- Home page (layouts/index.html) ---------------------------------------
+
+[home_h1]
+other = "The sigrok stack, in Rust"
+[home_lede]
+other = "A library, drivers and a command line tool for logic analyzers, scopes and meters. It builds with <code>cargo</code> alone, links no C sigrok library, and takes sigrok-cli's flags, file formats, driver ids and decoder ids."
+[home_tag]
+other = "Experimental. Most drivers have never run on real hardware."
+[home_cta_start]
+other = "Get started"
+[home_cta_devices]
+other = "Find your device"
+[home_cta_ui]
+other = "Comes with a UI"
+
+[home_find_h]
+other = "Find your device"
+
+[home_col1_h]
+other = "Same interface as sigrok"
+[home_col1_p]
+other = "sigrok-cli's flags, file formats, driver and decoder ids. libsigrokdecode's Python decoders run unchanged, on a built-in RustPython interpreter or the system's CPython."
+[home_col2_h]
+other = "One binary"
+[home_col2_p]
+other = "No C libraries. Static builds for Linux, macOS and Windows, with the decoders next to it."
+[home_col3_h]
+other = "Tested against the C"
+[home_col3_p]
+other = "Every driver is compared with libsigrok on a device model the kernel cannot tell apart from hardware. {link}."
+[home_col3_link]
+other = "How"
+
+[home_ui_h]
+other = "The UI"
+[home_ui_alt]
+other = "The oxrok-ui capture view: waveforms and decoded protocols"
+[home_ui_link]
+other = "oxrok-ui"
+[home_ui_p]
+other = "{link} is the capture, display, measurement and decoding UI for oxrok, written in Rust on egui. It runs on the built-in mock devices, so you can try it without hardware."
+
+[home_stat_drivers]
+other = "of libsigrok's {{ . }} drivers"
+[home_stat_cases]
+other = "emulator cases"
+[home_stat_hardware]
+other = "on real hardware"
+[numbers]
+other = "{{ .ported }} of {{ .total }} drivers ported, {{ .cases }} emulator cases, {{ .hardware }} on real hardware"
+[home_all_drivers]
+other = "all drivers →"
+
+[home_search_placeholder]
+other = "Search devices and models, e.g. UT61E"
+[home_search_aria]
+other = "Search devices"
+[home_search_try]
+other = "Try:"
+
+[home_written_h]
+other = "How it was written"
+[home_written_p1]
+other = "oxrok is a translation of the sigrok C and Python code into Rust, done by a large language model, with a human directing the work: choosing what to port, reviewing the structure and the protocol handling, wiring up the bench hardware and running the comparisons. Read the code with that in mind, and read the {link} for what has met which kind of evidence."
+[home_written_link]
+other = "driver table"
+[home_written_p2]
+other = "for what has met which kind of evidence."
+
+[home_tested_h]
+other = "How it is tested"
+[home_tested_p]
+other = "We don't own the hardware for most of these drivers, so we make the kernel think we do: each is a model in Rust, attached over USB/IP (<code>vhci-hcd</code>) so it's a real USB device as far as the kernel is concerned. The real sigrok-cli and oxrok then run unmodified against the same device, every transaction logged and compared. The models are built to misbehave — stalls, unplugs, late replies, bad frames. {link}."
+[home_tested_link]
+other = "The whole method, and its limits"
+
+[home_vusb_p1]
+other = "The models run on {link}, a virtual USB library that puts a device on the bus that is only Rust code."
+[home_vusb_link]
+other = "vusb"
+[home_vusb_p2]
+other = "a virtual USB library that puts a device on the bus that is only Rust code."
+
+# --- Emulator diagram (partials/emulator.html) -----------------------------
+
+[emu_aria]
+other = "oxrok-emu, a device model in Rust, is attached to the Linux kernel over USB/IP; sigrok-cli and oxrok both run against it over the USB bus, and their transactions are compared."
+[emu_oxrokemu]
+other = "oxrok-emu"
+[emu_model]
+other = "device model in Rust"
+[emu_pedantic]
+other = "pedantic checks"
+[emu_fault]
+other = "fault injection"
+[emu_tlog]
+other = "transaction log"
+[emu_kernel]
+other = "Linux kernel"
+[emu_vhci]
+other = "vhci-hcd"
+[emu_vhost]
+other = "(virtual host controller)"
+[emu_usbcore]
+other = "usbcore · usbhid"
+[emu_sigrok]
+other = "sigrok-cli"
+[emu_oracle]
+other = "the oracle, through libusb"
+[emu_oxrok]
+other = "oxrok"
+[emu_port]
+other = "the port, through nusb"
+[emu_usbip]
+other = "USB/IP over TCP"
+[emu_usbbus]
+other = "USB bus"
+
+# --- Devices table (layouts/devices/list.html) ------------------------------
+
+[devices_intro]
+other = "How far can I trust this? A driver's <strong>status</strong> says how it was checked, from strongest to weakest. Most have never met their device; the {link} says what each status does and does not prove."
+[devices_intro_link]
+other = "testing page"
+[devices_intro_p2]
+other = "says what each status does and does not prove."
+
+[devices_search_placeholder]
+other = "Search names and models"
+[devices_search_aria]
+other = "Search devices"
+[devices_kind_aria]
+other = "Filter by kind"
+[devices_status_aria]
+other = "Filter by status"
+[devices_conn_aria]
+other = "Filter by connection"
+[devices_all_kinds]
+other = "All kinds"
+[devices_all_statuses]
+other = "All statuses"
+[devices_all_conns]
+other = "All connections"
+[devices_clear]
+other = "clear"
+
+[col_device]
+other = "Device"
+[col_kind]
+other = "Kind"
+[col_connection]
+other = "Connection"
+[col_status]
+other = "Status"
+[col_cases]
+other = "Cases"
+
+[devices_none]
+other = "No drivers match those filters."
+
+[status_meaning_h]
+other = "Meaning"
+
+[status_hardware]
+other = "Hardware"
+[status_stand-in]
+other = "Stand-in"
+[status_emulated]
+other = "Emulated"
+[status_software]
+other = "Software"
+[status_replay]
+other = "Replay"
+[status_not-ported]
+other = "Not ported"
+
+[status_hardware_meaning]
+other = "Run on the real device, by us"
+[status_standin_meaning]
+other = "Run over a real bus on a microcontroller acting as the device"
+[status_emulated_meaning]
+other = "Compared with libsigrok on an emulated device; never on hardware"
+[status_software_meaning]
+other = "A software driver, checked by the software cases of the differential script"
+[status_replay_meaning]
+other = "Checked only against recordings"
+[status_notported_meaning]
+other = "In libsigrok, not here yet"
+
+[kind_logic-analyzer]
+other = "Logic analyzer"
+[kind_scope]
+other = "Scope"
+[kind_meter]
+other = "Meter"
+[kind_supply]
+other = "Supply"
+[kind_load]
+other = "Load"
+[kind_generator]
+other = "Generator"
+[kind_other]
+other = "Other"
+
+[conn_usb]
+other = "USB"
+[conn_serial]
+other = "Serial"
+[conn_tcp]
+other = "TCP"
+[conn_hid]
+other = "HID"
+[conn_none]
+other = "None"
+
+[devices_have_one]
+other = "Have one? Tell us"
+[devices_have_one_p]
+other = "a report from a real unit is worth more than another emulator case."
+
+[devices_count_shown]
+other = "{shown} of {total} drivers shown"
+[devices_count_total]
+other = "{total} drivers"
+
+# --- Driver page (layouts/devices/single.html) ------------------------------
+
+[dpage_back]
+other = "← All drivers"
+[dpage_covers]
+other = "Covers"
+[dpage_not_ported]
+other = "Not ported yet."
+[dpage_connect]
+other = "Connect"
+[dpage_no_id]
+other = "No driver id yet."
+[dpage_capabilities]
+other = "Capabilities"
+[dpage_checked]
+other = "How it was checked"
+[dpage_behaviour]
+other = "Behaviour to know"
+[dpage_limits]
+other = "Known limits"
+[dpage_cases]
+other = "emulator cases"
+[dpage_cases_coverage]
+other = ", covering {{ . }}% of the C driver's lines. "
+[dpage_cases_note]
+other = "The {link} says what that figure does and does not prove."
+[dpage_cases_link]
+other = "testing page"
+[dpage_cases_note2]
+other = "says what that figure does and does not prove."
+[dpage_source]
+other = "source"
+[dpage_device_docs]
+other = "device docs"
+[dpage_report]
+other = "report a result"
+[dpage_not_found]
+other = "Driver not found"

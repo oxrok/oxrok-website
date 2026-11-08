@@ -1,0 +1,293 @@
+# Simplified Chinese (zh-Hans). Same keys as i18n/en.toml.
+
+[nav_devices]
+other = "设备"
+[nav_start]
+other = "开始使用"
+[nav_testing]
+other = "测试"
+[nav_docs]
+other = "文档"
+[nav_blog]
+other = "博客"
+[nav_github]
+other = "GitHub"
+
+[footer_this_site]
+other = "本站"
+[footer_device_docs]
+other = "设备文档"
+[footer_roadmap]
+other = "路线图"
+[footer_ui]
+other = "UI"
+[footer_rss]
+other = "RSS"
+[footer_llm_disclosure]
+other = "由大语言模型撰写，人工指导"
+
+[aria_site]
+other = "站点"
+[aria_language]
+other = "语言"
+
+[copy]
+other = "复制"
+[copied]
+other = "已复制"
+
+[home_h1]
+other = "用 Rust 实现的 sigrok 技术栈"
+[home_lede]
+other = "用于逻辑分析仪、示波器和万用表的库、驱动和命令行工具。只需 <code>cargo</code> 即可构建，不链接任何 C 语言的 sigrok 库，并沿用 sigrok-cli 的参数、文件格式、驱动 id 和协议解码器 id。"
+[home_tag]
+other = "实验性项目。大多数驱动从未在真实硬件上运行过。"
+[home_cta_start]
+other = "开始使用"
+[home_cta_devices]
+other = "查找你的设备"
+[home_cta_ui]
+other = "自带图形界面"
+
+[home_find_h]
+other = "查找你的设备"
+
+[home_col1_h]
+other = "与 sigrok 接口一致"
+[home_col1_p]
+other = "沿用 sigrok-cli 的参数、文件格式、驱动和协议解码器 id。libsigrokdecode 的 Python 协议解码器无需修改即可运行，既可在内置的 RustPython 解释器上，也可在系统的 CPython 上。"
+[home_col2_h]
+other = "单个二进制"
+[home_col2_p]
+other = "不依赖 C 库。为 Linux、macOS 和 Windows 提供静态构建，协议解码器随二进制一起提供。"
+[home_col3_h]
+other = "对照 C 实现进行测试"
+[home_col3_p]
+other = "每个驱动都会在一个内核无法与真实硬件区分的设备模型上，与 libsigrok 进行对比。{link}。"
+[home_col3_link]
+other = "方法"
+
+[home_ui_h]
+other = "图形界面"
+[home_ui_alt]
+other = "oxrok-ui 的采集视图：波形与解码后的协议"
+[home_ui_link]
+other = "oxrok-ui"
+[home_ui_p]
+other = "{link} 是 oxrok 的采集、显示、测量和解码界面，基于 egui 用 Rust 编写。它可以在内置的模拟设备上运行，因此你无需硬件即可试用。"
+
+[home_stat_drivers]
+other = "libsigrok 的 {{ . }} 个驱动中"
+[home_stat_cases]
+other = "个仿真用例"
+[home_stat_hardware]
+other = "在真实硬件上"
+[numbers]
+other = "{{ .total }} 个驱动中已移植 {{ .ported }} 个，{{ .cases }} 个仿真用例，{{ .hardware }} 个在真实硬件上运行"
+[home_all_drivers]
+other = "全部驱动 →"
+
+[home_search_placeholder]
+other = "搜索设备与型号，如 UT61E"
+[home_search_aria]
+other = "搜索设备"
+[home_search_try]
+other = "试试："
+
+[home_written_h]
+other = "它是如何写成的"
+[home_written_p1]
+other = "oxrok 是把 sigrok 的 C 与 Python 代码翻译为 Rust 的成果，由大语言模型完成，并由人工主导工作：选择要移植什么、审查结构和协议处理、连接测试台硬件并运行对比。阅读代码时请牢记这一点，并可查阅{link}来了解每个驱动经过哪些验证。"
+[home_written_link]
+other = "驱动表"
+[home_written_p2]
+other = "来了解每个驱动经过哪些验证。"
+
+[home_tested_h]
+other = "它是如何测试的"
+[home_tested_p]
+other = "这些驱动中的大多数硬件我们并不拥有，因此我们让内核以为我们拥有它们：每个驱动都是一个 Rust 模型，通过 USB/IP（<code>vhci-hcd</code>）挂载，在内核看来就是一个真实的 USB 设备。真实的 sigrok-cli 和 oxrok 随后不加修改地对同一设备运行，每一次传输都被记录并对比。这些模型被刻意设计为会出错——停止响应、拔插、延迟回复、错误帧。{link}。"
+[home_tested_link]
+other = "完整的方法及其局限"
+
+[home_vusb_p1]
+other = "这些模型运行在{link}之上——这是一个虚拟 USB 库，它把一个纯 Rust 代码构成的设备放到了总线上。"
+[home_vusb_link]
+other = "vusb"
+[home_vusb_p2]
+other = "之上——这是一个虚拟 USB 库，它把一个纯 Rust 代码构成的设备放到了总线上。"
+
+[emu_aria]
+other = "oxrok-emu，一个用 Rust 编写的设备模型，通过 USB/IP 挂载到 Linux 内核；sigrok-cli 和 oxrok 都通过 USB 总线对它运行，并对两者的每一次传输进行对比。"
+[emu_oxrokemu]
+other = "oxrok-emu"
+[emu_model]
+other = "Rust 设备模型"
+[emu_pedantic]
+other = "严格检查"
+[emu_fault]
+other = "故障注入"
+[emu_tlog]
+other = "传输日志"
+[emu_kernel]
+other = "Linux 内核"
+[emu_vhci]
+other = "vhci-hcd"
+[emu_vhost]
+other = "（虚拟主机控制器）"
+[emu_usbcore]
+other = "usbcore · usbhid"
+[emu_sigrok]
+other = "sigrok-cli"
+[emu_oracle]
+other = "通过 libusb 的基准"
+[emu_oxrok]
+other = "oxrok"
+[emu_port]
+other = "通过 nusb 的移植版"
+[emu_usbip]
+other = "基于 TCP 的 USB/IP"
+[emu_usbbus]
+other = "USB 总线"
+
+[devices_intro]
+other = "我能信任它到什么程度？驱动的<strong>状态</strong>说明了它是如何被验证的，从最强到最弱。大多数驱动从未接触过它们的设备；{link}说明了每种状态能证明什么、不能证明什么。"
+[devices_intro_link]
+other = "测试页"
+[devices_intro_p2]
+other = "说明了每种状态能证明什么、不能证明什么。"
+
+[devices_search_placeholder]
+other = "搜索名称和型号"
+[devices_search_aria]
+other = "搜索设备"
+[devices_kind_aria]
+other = "按类型筛选"
+[devices_status_aria]
+other = "按状态筛选"
+[devices_conn_aria]
+other = "按连接方式筛选"
+[devices_all_kinds]
+other = "全部类型"
+[devices_all_statuses]
+other = "全部状态"
+[devices_all_conns]
+other = "全部连接方式"
+[devices_clear]
+other = "清除"
+
+[col_device]
+other = "设备"
+[col_kind]
+other = "类型"
+[col_connection]
+other = "连接"
+[col_status]
+other = "状态"
+[col_cases]
+other = "用例"
+
+[devices_none]
+other = "没有驱动符合这些筛选条件。"
+
+[status_meaning_h]
+other = "含义"
+
+[status_hardware]
+other = "硬件"
+[status_stand-in]
+other = "替身"
+[status_emulated]
+other = "仿真"
+[status_software]
+other = "软件"
+[status_replay]
+other = "回放"
+[status_not-ported]
+other = "未移植"
+
+[status_hardware_meaning]
+other = "由我们在真实设备上运行"
+[status_standin_meaning]
+other = "在充当该设备的微控制器上、通过真实总线运行"
+[status_emulated_meaning]
+other = "在仿真设备上与 libsigrok 对比；从未在真实硬件上运行"
+[status_software_meaning]
+other = "软件驱动，由差分脚本的软件用例检查"
+[status_replay_meaning]
+other = "仅对照录制数据检查"
+[status_notported_meaning]
+other = "存在于 libsigrok，此处尚未移植"
+
+[kind_logic-analyzer]
+other = "逻辑分析仪"
+[kind_scope]
+other = "示波器"
+[kind_meter]
+other = "万用表"
+[kind_supply]
+other = "电源"
+[kind_load]
+other = "负载"
+[kind_generator]
+other = "发生器"
+[kind_other]
+other = "其他"
+
+[conn_usb]
+other = "USB"
+[conn_serial]
+other = "串口"
+[conn_tcp]
+other = "TCP"
+[conn_hid]
+other = "HID"
+[conn_none]
+other = "无"
+
+[devices_have_one]
+other = "有这台设备？告诉我们"
+[devices_have_one_p]
+other = "来自一台真实设备的报告，比再多一个仿真用例都更有价值。"
+
+[devices_count_shown]
+other = "共 {total} 个驱动，显示 {shown} 个"
+[devices_count_total]
+other = "共 {total} 个驱动"
+
+[dpage_back]
+other = "← 全部驱动"
+[dpage_covers]
+other = "覆盖型号"
+[dpage_not_ported]
+other = "尚未移植。"
+[dpage_connect]
+other = "连接"
+[dpage_no_id]
+other = "尚无驱动 id。"
+[dpage_capabilities]
+other = "能力"
+[dpage_checked]
+other = "它是如何被验证的"
+[dpage_behaviour]
+other = "需要了解的行为"
+[dpage_limits]
+other = "已知限制"
+[dpage_cases]
+other = "个仿真用例"
+[dpage_cases_coverage]
+other = "，覆盖 C 驱动 {{ . }}% 的代码行。"
+[dpage_cases_note]
+other = "{link}说明了这个数字能证明什么、不能证明什么。"
+[dpage_cases_link]
+other = "测试页"
+[dpage_cases_note2]
+other = "说明了这个数字能证明什么、不能证明什么。"
+[dpage_source]
+other = "源代码"
+[dpage_device_docs]
+other = "设备文档"
+[dpage_report]
+other = "报告测试结果"
+[dpage_not_found]
+other = "未找到该驱动"

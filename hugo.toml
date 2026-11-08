@@ -1,9 +1,50 @@
 baseURL = "https://oxrok.dev/"
-languageCode = "en"
 title = "oxrok"
 copyright = "GPL-3.0-or-later"
 
 enableRobotsTXT = true
+
+# Multilingual: English stays at the root (no /en/ prefix); other languages
+# live under /<lang>/. See docs/internationalization.md.
+#
+# A language is only declared here once it has content, so an empty language
+# site is never built. To add a language: add its [languages.xx] block and its
+# content/xx/ (and i18n/xx.toml) in the same change.
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = false
+
+[languages.en]
+languageCode = "en"
+languageName = "English"
+contentDir = "content"
+weight = 1
+
+[languages.zh]
+languageCode = "zh-Hans"
+languageName = "简体中文"
+contentDir = "content/zh"
+weight = 2
+
+[languages.es]
+languageCode = "es"
+languageName = "Español"
+contentDir = "content/es"
+weight = 3
+
+# [languages.ja]
+# languageCode = "ja"
+# languageName = "日本語"
+# weight = 4
+#
+# [languages.fr]
+# languageCode = "fr"
+# languageName = "Français"
+# weight = 5
+#
+# [languages.de]
+# languageCode = "de"
+# languageName = "Deutsch"
+# weight = 6
 
 [params]
 description = "A sigrok-compatible stack in Rust for logic analyzers, scopes and meters"

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ .Site.Language.Lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,27 +13,36 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:image" content="{{ "logo/avatar.png" | absURL }}">
+  {{ range .AllTranslations }}<link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}">
+  {{ end }}<link rel="alternate" hreflang="x-default" href="{{ .Sites.Default.Home.Permalink }}">
   <link rel="icon" href="{{ "logo/mark.svg" | relURL }}">
   <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
   <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
-  <link rel="alternate" type="application/rss+xml" title="oxrok" href="{{ "index.xml" | relURL }}">
+  <link rel="alternate" type="application/rss+xml" title="oxrok" href="{{ "index.xml" | relLangURL }}">
 </head>
 <body>
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="{{ "/" | relURL }}">
+    <a class="brand" href="{{ "/" | relLangURL }}">
       <img src="{{ "logo/lockup.svg" | relURL }}" alt="oxrok" width="132" height="47">
     </a>
     {{ $p := .RelPermalink }}
-    <nav aria-label="Site">
-      <a href="{{ "devices/" | relURL }}"{{ if hasPrefix $p (relURL "devices/") }} aria-current="page"{{ end }}>Devices</a>
-      <a href="{{ "start/" | relURL }}"{{ if hasPrefix $p (relURL "start/") }} aria-current="page"{{ end }}>Get started</a>
-      <a href="{{ "testing/" | relURL }}"{{ if hasPrefix $p (relURL "testing/") }} aria-current="page"{{ end }}>Testing</a>
-      <a href="{{ "docs/" | relURL }}"{{ if hasPrefix $p (relURL "docs/") }} aria-current="page"{{ end }}>Docs</a>
-      <a href="{{ "blog/" | relURL }}"{{ if hasPrefix $p (relURL "blog/") }} aria-current="page"{{ end }}>Blog</a>
-      <a class="gh" href="{{ .Site.Params.repo }}" rel="noopener">GitHub</a>
+    <nav aria-label="{{ T "aria_site" }}">
+      <a href="{{ "devices/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "devices/") }} aria-current="page"{{ end }}>{{ T "nav_devices" }}</a>
+      <a href="{{ "start/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "start/") }} aria-current="page"{{ end }}>{{ T "nav_start" }}</a>
+      <a href="{{ "testing/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "testing/") }} aria-current="page"{{ end }}>{{ T "nav_testing" }}</a>
+      <a href="{{ "docs/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "docs/") }} aria-current="page"{{ end }}>{{ T "nav_docs" }}</a>
+      <a href="{{ "blog/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "blog/") }} aria-current="page"{{ end }}>{{ T "nav_blog" }}</a>
+      <a class="gh" href="{{ .Site.Params.repo }}" rel="noopener">{{ T "nav_github" }}</a>
       <span id="pagefind"></span>
     </nav>
+    {{- if gt (len .AllTranslations) 1 }}
+    <nav class="langs" aria-label="{{ T "aria_language" }}">
+      {{- range .AllTranslations }}
+      <a href="{{ .RelPermalink }}"{{ if eq .Lang $.Lang }} aria-current="true"{{ end }}>{{ .Language.LanguageName }}</a>
+      {{- end }}
+    </nav>
+    {{- end }}
   </div>
 </header>
 <main class="wrap" id="main">
@@ -42,14 +51,14 @@
 <footer class="site">
   <div class="wrap">
     <p>
-      <a href="{{ .Site.Params.repo }}">GitHub</a>
-      · <a href="{{ .Site.Params.website_repo }}">this site</a>
-      · <a href="{{ .Site.Params.repo }}/blob/main/docs/DEVICES.md">device docs</a>
-      · <a href="{{ .Site.Params.repo }}/blob/main/docs/ROADMAP.md">roadmap</a>
-      · <a href="{{ "ui/" | relURL }}">UI</a>
-      · <a href="{{ "index.xml" | relURL }}">RSS</a>
+      <a href="{{ .Site.Params.repo }}">{{ T "nav_github" }}</a>
+      · <a href="{{ .Site.Params.website_repo }}">{{ T "footer_this_site" }}</a>
+      · <a href="{{ .Site.Params.repo }}/blob/main/docs/DEVICES.md">{{ T "footer_device_docs" }}</a>
+      · <a href="{{ .Site.Params.repo }}/blob/main/docs/ROADMAP.md">{{ T "footer_roadmap" }}</a>
+      · <a href="{{ "ui/" | relLangURL }}">{{ T "footer_ui" }}</a>
+      · <a href="{{ "index.xml" | relLangURL }}">{{ T "footer_rss" }}</a>
     </p>
-    <p class="fine">GPL-3.0-or-later · written by an LLM, directed by a person</p>
+    <p class="fine">GPL-3.0-or-later · {{ T "footer_llm_disclosure" }}</p>
   </div>
 </footer>
 <script src="/pagefind/pagefind-component-ui.js" charset="utf-8" defer></script>
@@ -60,6 +69,8 @@
 </script>
 <script>
   // Copy buttons on terminal blocks and connect lines.
+  var COPY = {{ T "copy" | jsonify }};
+  var COPIED = {{ T "copied" | jsonify }};
   document.addEventListener("click", function (e) {
     var b = e.target.closest("button.copy");
     if (!b) return;
@@ -74,10 +85,10 @@
       ? Array.prototype.map.call(cmds, function (el) { return el.textContent.trim(); }).join("\n")
       : copy.innerText.trim();
     var done = function () {
-      b.textContent = "copied";
+      b.textContent = COPIED;
       b.classList.add("done");
       setTimeout(function () {
-        b.textContent = "copy";
+        b.textContent = COPY;
         b.classList.remove("done");
       }, 1400);
     };
