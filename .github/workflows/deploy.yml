@@ -72,10 +72,15 @@ jobs:
           extended: true
 
       - name: Pagefind
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          curl -fsSL --retry 5 --retry-delay 2 --retry-all-errors \
-            https://github.com/Pagefind/pagefind/releases/download/v1.6.0/pagefind-v1.6.0-x86_64-unknown-linux-musl.tar.gz \
-            | tar -xz
+          gh release download v1.6.0 --repo Pagefind/pagefind \
+            --pattern 'pagefind-v1.6.0-x86_64-unknown-linux-musl.tar.gz' \
+            || curl -fsSL --retry 5 --retry-delay 2 --retry-all-errors \
+                 https://github.com/Pagefind/pagefind/releases/download/v1.6.0/pagefind-v1.6.0-x86_64-unknown-linux-musl.tar.gz \
+                 -o pagefind-v1.6.0-x86_64-unknown-linux-musl.tar.gz
+          tar -xzf pagefind-v1.6.0-x86_64-unknown-linux-musl.tar.gz
           chmod +x pagefind
           ./pagefind --version
 
