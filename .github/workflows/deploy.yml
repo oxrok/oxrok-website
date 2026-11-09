@@ -23,7 +23,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
 
       # git ls-remote, not the releases API: the releases are pre-releases,
       # which releases/latest skips.
@@ -57,20 +59,23 @@ jobs:
             echo "oxrok $tag predates the site machinery; building against main"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
+          persist-credentials: false
           repository: oxrok/oxrok
           ref: ${{ steps.tag.outputs.tag }}
           path: oxrok
 
       # tools/site-data builds oxrok if the binary is missing.
-      - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2
+      - uses: dtolnay/rust-toolchain@683b588c487a69d01f6c6ddf40f036ff682cc2c8 # master
+        with:
+          toolchain: stable
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           key: oxrok
 
       # Pinned to the version the site was built and checked with.
-      - uses: peaceiris/actions-hugo@v2
+      - uses: peaceiris/actions-hugo@16361eb4acea8698b220b76c0d4e84e1fd22c61d # v2.6.0
         with:
           hugo-version: "0.162.1"
           extended: true
@@ -93,7 +98,7 @@ jobs:
       # no broken links, no page over budget, no libsigrok-bug mentions.
       - run: make OXROK="$GITHUB_WORKSPACE/oxrok" PAGEFIND=./pagefind
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
           path: public
 
@@ -106,4 +111,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
