@@ -2,10 +2,12 @@ name: Build and deploy
 
 # The site describes the latest oxrok release, not main: the driver table
 # should say what is installable. A new release is picked up by the daily
-# schedule; a push to main rebuilds the site with the same release.
+# schedule; a push to main rebuilds the site with the same release. A pull
+# request runs the build and the checks only; the deploy job skips it.
 on:
   push:
     branches: [main]
+  pull_request:
   schedule:
     - cron: "0 6 * * *"
   workflow_dispatch:
