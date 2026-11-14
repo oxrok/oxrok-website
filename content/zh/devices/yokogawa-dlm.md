@@ -1,5 +1,5 @@
 ---
 key: yokogawa-dlm
-title: Yokogawa DLM
+title: Yokogawa DL/DLM
 type: devices
 ---

@@ -34,6 +34,7 @@
       <a href="{{ "testing/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "testing/") }} aria-current="page"{{ end }}>{{ T "nav_testing" }}</a>
       <a href="{{ "docs/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "docs/") }} aria-current="page"{{ end }}>{{ T "nav_docs" }}</a>
       <a href="{{ "blog/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "blog/") }} aria-current="page"{{ end }}>{{ T "nav_blog" }}</a>
+      <a href="{{ "changelog/" | relLangURL }}"{{ if hasPrefix $p (relLangURL "changelog/") }} aria-current="page"{{ end }}>{{ T "nav_changelog" }}</a>
       <a class="gh" href="{{ .Site.Params.repo }}" rel="noopener">{{ T "nav_github" }}</a>
       <span id="pagefind"></span>
     </nav>

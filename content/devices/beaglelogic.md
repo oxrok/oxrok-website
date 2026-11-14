@@ -1,5 +1,5 @@
 ---
 key: beaglelogic
-title: Beagle Logic
+title: BeagleLogic
 type: devices
 ---

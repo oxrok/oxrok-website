@@ -1,0 +1,16 @@
+{{ define "main" }}
+  <article>
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    <ul>
+      {{ range .RegularPages }}
+      {{/* The newest release is the first "## [version]" heading. */}}
+      {{ $latest := "" }}
+      {{ with resources.Get .Params.source }}
+        {{ with findRESubmatch `(?m)^## \[([^\]]+)\]` .Content 1 }}{{ $latest = index (index . 0) 1 }}{{ end }}
+      {{ end }}
+      <li><a href="{{ .RelPermalink }}">{{ .Title }}</a> — {{ .Params.summary }}{{ with $latest }} ({{ T "changelog_latest" . }}){{ end }}</li>
+      {{ end }}
+    </ul>
+  </article>
+{{ end }}

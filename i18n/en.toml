@@ -14,6 +14,8 @@ other = "Testing"
 other = "Docs"
 [nav_blog]
 other = "Blog"
+[nav_changelog]
+other = "Changelog"
 [nav_github]
 other = "GitHub"
 
@@ -529,3 +531,8 @@ other = "<code>-B</code> writes a binary class to stdout instead of annotations,
 other = "Metadata"
 [dec_ex_meta_p]
 other = "<code>-M</code> shows the values a decoder measures, here the I²C bit rate of each transfer."
+
+# --- Changelog (layouts/changelog/) ------------------------------------------
+
+[changelog_latest]
+other = "latest: {{ . }}"

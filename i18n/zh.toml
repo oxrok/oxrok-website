@@ -10,6 +10,8 @@ other = "测试"
 other = "文档"
 [nav_blog]
 other = "博客"
+[nav_changelog]
+other = "更新日志"
 [nav_github]
 other = "GitHub"
 
@@ -517,3 +519,8 @@ other = "<code>-B</code> 把一个二进制类别写到标准输出而不是注�
 other = "元数据"
 [dec_ex_meta_p]
 other = "<code>-M</code> 显示解码器测得的值，这里是每次传输的 I²C 比特率。"
+
+# --- Changelog (layouts/changelog/) ------------------------------------------
+
+[changelog_latest]
+other = "最新：{{ . }}"

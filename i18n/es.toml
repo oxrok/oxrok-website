@@ -10,6 +10,8 @@ other = "Pruebas"
 other = "Documentación"
 [nav_blog]
 other = "Blog"
+[nav_changelog]
+other = "Cambios"
 [nav_github]
 other = "GitHub"
 
@@ -517,3 +519,8 @@ other = "<code>-B</code> escribe una clase binaria en la salida estándar en lug
 other = "Metadatos"
 [dec_ex_meta_p]
 other = "<code>-M</code> muestra los valores que mide un decodificador, aquí la velocidad de bits I²C de cada transferencia."
+
+# --- Changelog (layouts/changelog/) ------------------------------------------
+
+[changelog_latest]
+other = "última: {{ . }}"

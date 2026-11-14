@@ -1,5 +1,5 @@
 ---
 key: scpi-pps
-title: SCPI PPS (generic)
+title: SCPI power supplies (generic)
 type: devices
 ---
