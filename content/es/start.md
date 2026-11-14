@@ -46,7 +46,7 @@ Channel groups:
 <div class="term">
   <button class="copy" type="button">copiar</button>
   <pre><span class="prompt">$</span> <span class="cmd">oxrok -d demo --samples 4 -O bits</span>
-oxrok 0.2.0
+oxrok 0.3.0-alpha.1
 Acquisition with 8/13 channels at 200 kHz
 A0: -10.0000 V DC
 A0: -10.0000 V DC

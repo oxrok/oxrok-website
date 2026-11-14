@@ -1,5 +1,5 @@
 ---
 key: baylibre-acme
-title: Baylibre ACME
+title: BayLibre ACME
 type: devices
 ---

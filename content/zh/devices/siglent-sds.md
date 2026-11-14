@@ -1,5 +1,5 @@
 ---
 key: siglent-sds
-title: Siglent SDS
+title: Siglent SDS1000/SDS2000
 type: devices
 ---

@@ -1,5 +1,5 @@
 ---
 key: hameg-hmo
-title: HAMEG HMO
+title: Hameg HMO
 type: devices
 ---

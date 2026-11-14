@@ -7,6 +7,8 @@
 - no broken internal links
 - no page over budget (home under 100 KB)
 - the site never names a bug in libsigrok
+- the UI screenshots match their manifest
+- the changelogs have the releases the site is built for
 """
 
 import json
@@ -114,6 +116,33 @@ if os.path.isfile(ui_path):
     print(f"ui: {len(ui['files'])} screenshots (oxrok-ui {ui.get('version')})")
 else:
     print("ui: manifest missing, skipped (run make ui)")
+
+# 6. the changelogs cover the releases the site shows. The oxrok one is
+# generated (tools/import-docs.py), so this catches a release whose
+# CHANGELOG.md was not written; the oxrok-ui one is committed, so this
+# catches a UI release whose notes were not added (see AGENTS.md).
+def changelog_versions(path):
+    if not os.path.isfile(path):
+        failures.append(f"missing {path}")
+        return []
+    return re.findall(r"(?m)^## \[([^\]]+)\]", open(path).read())
+
+
+oxrok_versions = changelog_versions("assets/changelog/oxrok.md")
+if os.path.isfile(data_path) and oxrok_versions:
+    oxrok_version = json.loads(open(data_path).read())["meta"].get("version")
+    if oxrok_version not in oxrok_versions:
+        failures.append(
+            f"assets/changelog/oxrok.md has no section for oxrok {oxrok_version}")
+ui_versions = changelog_versions("assets/changelog/ui.md")
+if os.path.isfile(ui_path) and ui_versions:
+    ui_version = json.loads(open(ui_path).read())["ui"].get("version")
+    if ui_versions[0] != ui_version:
+        failures.append(
+            f"assets/changelog/ui.md starts at {ui_versions[0]}, but data/ui.json "
+            f"is oxrok-ui {ui_version}: add that release's notes at the top")
+print(f"changelog: oxrok {len(oxrok_versions)} releases, "
+      f"oxrok-ui {len(ui_versions)} releases")
 
 if failures:
     print("\nFAILURES:", file=sys.stderr)
