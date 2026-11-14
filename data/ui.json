@@ -1,35 +1,35 @@
 {
   "ui": {
-    "version": "0.2.0",
-    "source": "../ui/docs/screenshots",
+    "version": "0.3.0-alpha.1",
+    "source": "/tmp/claude-1000/-home-fedora-website/7136d1eb-7239-40cd-9b66-b56082791c5f/scratchpad/rel/ui/docs/screenshots",
     "files": {
       "analyzers.png": {
-        "sha256": "b6e0b883c1661f11a8c0ea078e8e06cc0337216fabf9ba489576e919b986ca40",
-        "size": 322303
+        "sha256": "4a06ee0b0a26c2c577ee02d1091846139d6048fb7cd3417b84921c4df0f3ef25",
+        "size": 326177
       },
       "capture-light.png": {
-        "sha256": "cf229538fc7b53e3c05b65a58c8f1bd4c17c470fd6a9c7fee825e48116cae76f",
-        "size": 237671
+        "sha256": "0ad3b08f7e324e8f01972f8af9250899ae3dd3ca4dfba12dd300ab412b46c79a",
+        "size": 241940
       },
       "capture.png": {
-        "sha256": "a9e950c130fffc24490b7449e3de02f57f480523c5e3f934d0847f0a4ade8bf0",
-        "size": 228747
+        "sha256": "df2646f401294289457e16af86c9b9edf56145d21df409893a88c49eafd593d4",
+        "size": 232619
       },
       "markers.png": {
-        "sha256": "053d6d05058483f502be0d59c916923dd73a40d892772091b937cf5f1e5c050c",
-        "size": 212629
+        "sha256": "eb6670a54cd84eddd9e5e06185df029ea3749e820a52f92697f22f101e07331f",
+        "size": 215907
       },
       "row-menu.png": {
-        "sha256": "3313c8ac0b01042bdd0bfb49d5391ab51c2fc32c8cf819772ab9447c2996279c",
-        "size": 293241
+        "sha256": "d8b226132f1bb3022a865dc73770c3381e2758b854d75e38b11ca8a917887818",
+        "size": 296632
       },
       "start-screen.png": {
-        "sha256": "aa80fa10180adf6fd8478419840a3a140ba8d317623377871796747a42e1e74f",
-        "size": 178156
+        "sha256": "9a1ea84129b84e9fb38359d20478ce45ffce7cd8d761a28c7364a5357b6ace4e",
+        "size": 179409
       },
       "zoom-tool.png": {
-        "sha256": "4c2e934e6d94b51a3a042380cba40ce22095b835f98b3a52acfdf8a4f76f90f1",
-        "size": 276230
+        "sha256": "54fb71771dc95ccfe5d547f089e0c11dc5a40d3cad23a0cf84068d0cd0a7f56f",
+        "size": 280522
       }
     }
   }

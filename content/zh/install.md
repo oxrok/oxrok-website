@@ -2,17 +2,17 @@
 title: 安装
 ---
 
-单个二进制，仅用 `cargo` 构建，为 Linux、macOS 和 Windows 提供静态构建。最新版本是 0.2.0。
+单个二进制，仅用 `cargo` 构建，为 Linux、macOS 和 Windows 提供静态构建。最新版本是 0.3.0-alpha.1，这是一个预发布版本，所以请固定版本号。
 
 ## 从 crates.io 安装
 
 需要 Rust 1.95 或更新版本：
 
 ```
-cargo install oxrok --version 0.2.0 --locked
+cargo install oxrok --version 0.3.0-alpha.1 --locked
 ```
 
-或者，从源码检出安装（包含合并之后的内容）：
+不指定版本号时，cargo 会安装最近的稳定版本 0.2.0。或者，从源码检出安装（包含合并之后的内容）：
 
 ```
 cargo install --path . --locked
