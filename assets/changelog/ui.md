@@ -1,3 +1,23 @@
+## [0.3.0-alpha.2] - 2026-11-14
+
+The second pre-release of 0.3.0, built on oxrok `0.3.0-alpha.1`. It is the first with the packages attached: a signed and notarized macOS `.dmg`, a Linux AppImage and a Windows installer, each with a `.sha256`.
+
+### Packages
+
+- **macOS.** The package is signed with the Developer ID and notarized. The bundle is `Oxrok.app`, and the `.dmg` opens on the app beside a link to Applications.
+- **Windows.** The installer builds again: the decoders come from the libsigrokdecode 0.5.3 release.
+- Every published release builds the three packages and attaches them.
+
+### Fixes
+
+- Averaged analog values span the samples they stand for.
+- A status message fix.
+
+### Known issues
+
+- The Windows installer was built and the app passed its self-test in CI; the installer itself was not run.
+- The known issues of 0.3.0-alpha.1 stand: the new trigger paths were tested on the demo device and the mock, not yet on hardware.
+
 ## [0.3.0-alpha.1] - 2026-11-14
 
 The first pre-release of 0.3.0, built on oxrok `0.3.0-alpha.1`. Triggers are set on the channel rows and can use everything the device's trigger takes, missing firmware is downloaded from the app, and boards on USB serial ports are found without typing a connection string.
